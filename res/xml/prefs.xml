@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <PreferenceCategory
+        android:key="taskBackupCategory"
+        android:title="Backup" >
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="backupTasks"
+            android:summary="Backup to Remote Database"
+            android:title="Backup Tasks" />
+    </PreferenceCategory>
+</PreferenceScreen>

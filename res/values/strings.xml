@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">LGTasks</string>
+    <string name="title_activity_task_list">TaskList</string>
+    <string name="graphical_image">graphical image</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_add_task">AddTaskActivity</string>
+    <string name="what_need_to_be_done_">What need to be done...</string>
+    <string name="in_more_details_">In more details....</string>
+    <string name="from">FROM</string>
+    <string name="to">TO</string>
+    <string name="location">LOCATION</string>
+    <string name="_e_g_hashlosha_4_tel_aviv">(e.g) Hashlosha 4, Tel-aviv</string>
+    <string name="remind_me">Remind me</string>
+    <string name="app_id">221690714632996</string>
+
+</resources>

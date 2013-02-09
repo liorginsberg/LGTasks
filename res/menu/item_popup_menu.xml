@@ -1,0 +1,21 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <group android:id="@+id/group_popupmenu" >
+        <item
+            android:id="@+id/menu1"
+            android:title="Remove"/>
+        <item
+            android:id="@+id/menu2"
+            android:title="Edit"/>
+        <item
+            android:id="@+id/menu3"
+            android:title="Open"/>
+        <item
+            android:id="@+id/menu4"
+            android:title="Share"/>
+         <item
+            android:id="@+id/menu5"
+            android:title="Waze"/>
+    </group>
+
+</menu>
