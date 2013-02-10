@@ -42,8 +42,10 @@ public class TaskList implements Observer {
 		return tasks.get(position);
 	}
 
-	public long addTask(String title, String desc, String from, String to, String location, int isChecked, boolean updateRemoteDB, boolean share) {
-		long task_id = System.currentTimeMillis();
+	public long addTask(long task_id, String title, String desc, String from, String to, String location, int isChecked, boolean updateRemoteDB, boolean share) {
+		if(task_id == -1) {
+			task_id = System.currentTimeMillis();
+		}
 		taskDB.open().insertTask(task_id, title, desc, from, to, location, isChecked);
 		Task taskToAdd = new Task(task_id, title, desc, from, to, location, isChecked);
 		tasks.add(taskToAdd);
@@ -117,7 +119,7 @@ public class TaskList implements Observer {
 
 			for (int i = 0; i < tasksArray.length(); i++) {
 				JSONObject t = tasksArray.getJSONObject(i);
-				long row_id = t.getInt("row_id");
+				long task_id = t.getLong("task_id");
 				String task_title = t.getString("task_title");
 				String task_desc = t.getString("task_desc");
 				String task_from = t.getString("task_from");
@@ -125,9 +127,8 @@ public class TaskList implements Observer {
 				String task_location = t.getString("task_location");
 				int task_checked = t.getInt("task_checked");
 
-				long new_id = addTask(task_title, task_desc, task_from, task_to, task_location, task_checked, false, false);
-				SharedPreferences prefs = context.getSharedPreferences(TaskListActivity.PREFS_NAME, 0);
-				new HttpPostRequest(context).updateID(row_id, prefs.getString("userID", "-1"), new_id);
+				addTask(task_id, task_title, task_desc, task_from, task_to, task_location, task_checked, false, false);
+				
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();

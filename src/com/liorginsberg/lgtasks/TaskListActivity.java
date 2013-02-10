@@ -1,19 +1,35 @@
 package com.liorginsberg.lgtasks;
 
+import static com.liorginsberg.lgtasks.CommonUtilities.DISPLAY_MESSAGE_ACTION;
+import static com.liorginsberg.lgtasks.CommonUtilities.EXTRA_MESSAGE;
+import static com.liorginsberg.lgtasks.CommonUtilities.SENDER_ID;
+
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
+
+
+
+import com.google.android.gcm.GCMRegistrar;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Settings.Secure;
 import android.speech.RecognizerIntent;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class TaskListActivity extends Activity {
 
@@ -35,20 +51,81 @@ public class TaskListActivity extends Activity {
 
 	public static SharedPreferences settings;
 
+	ConnectionDetector cd;
+	
+	public static String user_name;
+	public static String user_email;
+	
+	private AsyncTask<Void, Void, Void> mRegisterTask;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_task_list);
 		
-		String user_email = AccountsHelper.getEmail(this);
+		user_email = AccountsHelper.getEmail(this);
 		if(user_email == null) {
 			user_email = "test";
+			user_name = "test";
 		}
+		String[] parts = user_email.split("@");
+		user_name = parts[0];
 		PreferenceManager.setDefaultValues(this, R.xml.prefs, false);
 		settings = getSharedPreferences(PREFS_NAME, 0);
 		SharedPreferences.Editor editor = settings.edit();
-		editor.putString("userID", user_email).commit();
+		editor.putString("userID", user_email);
+		editor.putString("userName", user_name);
+		editor.commit();
+
+		//register for gcm
+		cd = new ConnectionDetector(getApplicationContext());
+
+		// Check if Internet present
+		if (!cd.isConnectingToInternet()) {
+			Toast.makeText(this, "No internet connection, notification from the server is not available", Toast.LENGTH_LONG).show();
+		} else {
+			GCMRegistrar.checkDevice(this);
+			registerReceiver(mHandleMessageReceiver, new IntentFilter(
+					DISPLAY_MESSAGE_ACTION));
+			
+			// Get GCM registration id
+			final String regId = GCMRegistrar.getRegistrationId(this);
+
+			// Check if regid already presents
+			if (regId.equals("")) {
+				// Registration is not present, register now with GCM			
+				GCMRegistrar.register(getApplicationContext(), SENDER_ID);
+			} else {
+				// Device is already registered on GCM
+				if (GCMRegistrar.isRegisteredOnServer(this)) {
+					// Skips registration.				
+					Log.i("GCM", "Already registered with GCM");
+				} else {
+					// Try to register again, but not in the UI thread.
+					// It's also necessary to cancel the thread onDestroy(),
+					// hence the use of AsyncTask instead of a raw thread.
+					final Context context = this;
+					mRegisterTask = new AsyncTask<Void, Void, Void>() {
+
+						@Override
+						protected Void doInBackground(Void... params) {
+							// Register on our server
+							// On server creates a new user
+							ServerUtilities.register(context, user_name, user_email, regId);
+							return null;
+						}
+
+						@Override
+						protected void onPostExecute(Void result) {
+							mRegisterTask = null;
+						}
+
+					};
+					mRegisterTask.execute(null, null, null);
+				}
+			}
+		}
 
 		// get tasklist view
 		lvTasksList = (ListView) findViewById(R.id.lvMainTaskList);
@@ -90,8 +167,24 @@ public class TaskListActivity extends Activity {
 				boolean autoShare = prefs.getBoolean("autoShare", false);
 				boolean addShare = prefs.getBoolean("addTaskShare", false);
 				boolean share = autoShare && addShare;
-				long task_id = TaskList.getInstance(getApplicationContext())
-						.addTask(results.get(0), "", "", "", "", 0,
+				
+				Calendar fromCalendar = Calendar.getInstance();
+				Calendar toCalendar = Calendar.getInstance();
+				toCalendar.add(Calendar.HOUR_OF_DAY, 1);
+				
+				String from = String.format(Locale.getDefault(), "%02d/%02d/%02d", fromCalendar.get(Calendar.DAY_OF_MONTH),
+						fromCalendar.get(Calendar.MONTH) + 1, fromCalendar.get(Calendar.YEAR)) +" "+
+				String.format(Locale.getDefault(), "%02d:%02d", fromCalendar.get(Calendar.HOUR_OF_DAY),
+						fromCalendar.get(Calendar.MINUTE));
+
+				String to = String.format(Locale.getDefault(), "%02d/%02d/%02d", toCalendar.get(Calendar.DAY_OF_MONTH),
+						toCalendar.get(Calendar.MONTH) + 1, toCalendar.get(Calendar.YEAR)) +" "+
+				String.format(Locale.getDefault(), "%02d:%02d", toCalendar.get(Calendar.HOUR_OF_DAY), toCalendar.get(Calendar.MINUTE));
+				
+				
+				
+				TaskList.getInstance(getApplicationContext())
+						.addTask(-1, results.get(0), "By Voice", from, to, "", 0,
 								updateRemoteDB, share);
 				
 				scrollMyListViewToBottom();
@@ -158,5 +251,19 @@ public class TaskListActivity extends Activity {
 			}
 		});
 	}
-
+	
+	private final BroadcastReceiver mHandleMessageReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			String newMessage = intent.getExtras().getString(EXTRA_MESSAGE);
+			// Waking up mobile if it is sleeping
+			WakeLocker.acquire(getApplicationContext());
+			
+			
+			
+			// Releasing wake lock
+			WakeLocker.release();
+		}
+	};
+	
 }

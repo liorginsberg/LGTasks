@@ -228,7 +228,7 @@ public class AddTaskActivity extends Activity {
 						boolean autoShare = prefs.getBoolean("autoShare", false);
 						boolean addShare = prefs.getBoolean("addTaskShare", false);
 						boolean share  = autoShare && addShare;
-						task_id = TaskList.getInstance(getApplicationContext()).addTask(taskTitle, taskDesc, fromString, toString, location, 0, updateRemoteDB, share);
+						task_id = TaskList.getInstance(getApplicationContext()).addTask(-1, taskTitle, taskDesc, fromString, toString, location, 0, updateRemoteDB, share);
 					}else {
 						task_id = TaskList.getInstance(getApplicationContext()).getTaskAt(position).getTask_id();
 						int task_checked = TaskList.getInstance(getApplicationContext()).getTaskAt(position).isChecked();

@@ -16,7 +16,7 @@
         android:name="com.liorginsberg.lgtasks.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
     <permission
-        android:name="com.androidhive.pushnotifications.permission.C2D_MESSAGE"
+        android:name="com.liorginsberg.lgtasks.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -27,7 +27,10 @@
     <uses-permission android:name="com.liorginsberg.lgtasks.permission.MAPS_RECEIVE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="com.androidhive.pushnotifications.permission.C2D_MESSAGE" />
+    <uses-permission android:name="com.liorginsberg.lgtasks.permission.C2D_MESSAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
     <application
         android:allowBackup="true"
@@ -44,6 +47,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
+        <!-- reciver gcm -->
+        <receiver
+            android:name="com.google.android.gcm.GCMBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+
+                <!-- Receives the actual messages. -->
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <!-- Receives the registration id. -->
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
+                <category android:name="com.liorginsberg.lgtasks" />
+            </intent-filter>
+        </receiver>
+        
+        <service android:name=".GCMIntentService" />
+        
         <activity
             android:name="com.liorginsberg.lgtasks.AddTaskActivity"
             android:label="@string/title_activity_add_task"

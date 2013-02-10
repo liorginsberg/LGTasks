@@ -208,8 +208,9 @@ containing a value of this type.
         public static final int item_popup_menu=0x7f080000;
     }
     public static final class string {
-        public static final int _e_g_hashlosha_4_tel_aviv=0x7f060016;
-        public static final int app_id=0x7f060018;
+        public static final int _e_g_hashlosha_4_tel_aviv=0x7f060015;
+        public static final int already_registered=0x7f060019;
+        public static final int app_id=0x7f060017;
         public static final int app_name=0x7f06000b;
         /**  Button in confirmation dialog to enable Google Play services.  Clicking it
         will direct user to application settings of Google Play services where they
@@ -254,17 +255,34 @@ containing a value of this type.
         Google Play services (from Play Store) [CHAR LIMIT=40] 
          */
         public static final int common_google_play_services_update_title=0x7f060007;
-        public static final int from=0x7f060013;
+        /**  gcm 
+         */
+        public static final int error_config=0x7f060018;
+        public static final int from=0x7f060012;
+        public static final int gcm_deleted=0x7f06001f;
+        public static final int gcm_error=0x7f06001d;
+        public static final int gcm_message=0x7f06001c;
+        public static final int gcm_recoverable_error=0x7f06001e;
+        public static final int gcm_registered=0x7f06001a;
+        public static final int gcm_unregistered=0x7f06001b;
         public static final int graphical_image=0x7f06000d;
-        public static final int hello_world=0x7f06000e;
-        public static final int in_more_details_=0x7f060012;
-        public static final int location=0x7f060015;
-        public static final int menu_settings=0x7f06000f;
-        public static final int remind_me=0x7f060017;
-        public static final int title_activity_add_task=0x7f060010;
+        public static final int in_more_details_=0x7f060011;
+        public static final int location=0x7f060014;
+        public static final int menu_settings=0x7f06000e;
+        public static final int options_clear=0x7f060027;
+        public static final int options_exit=0x7f060028;
+        public static final int options_register=0x7f060025;
+        public static final int options_unregister=0x7f060026;
+        public static final int remind_me=0x7f060016;
+        public static final int server_register_error=0x7f060023;
+        public static final int server_registered=0x7f060021;
+        public static final int server_registering=0x7f060020;
+        public static final int server_unregister_error=0x7f060024;
+        public static final int server_unregistered=0x7f060022;
+        public static final int title_activity_add_task=0x7f06000f;
         public static final int title_activity_task_list=0x7f06000c;
-        public static final int to=0x7f060014;
-        public static final int what_need_to_be_done_=0x7f060011;
+        public static final int to=0x7f060013;
+        public static final int what_need_to_be_done_=0x7f060010;
     }
     public static final class style {
         /** 
