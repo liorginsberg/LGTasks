@@ -8,8 +8,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
+
+import com.google.android.gcm.GCMBroadcastReceiver;
 import com.google.android.gcm.GCMRegistrar;
 
 import android.app.Activity;
@@ -58,11 +62,15 @@ public class TaskListActivity extends Activity {
 	
 	private AsyncTask<Void, Void, Void> mRegisterTask;
 	
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_task_list);
+		
+		
 		
 		user_email = AccountsHelper.getEmail(this);
 		if(user_email == null) {
@@ -256,6 +264,21 @@ public class TaskListActivity extends Activity {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			String newMessage = intent.getExtras().getString(EXTRA_MESSAGE);
+			Log.i("mHandleMessageReceiver", newMessage);
+			
+			JSONObject taskJSON = null;
+			try {
+				taskJSON = new JSONObject(newMessage);
+				String action = taskJSON.getString("action");
+				Log.i("PUSH", action);
+				if(action.equals("addTask")) {
+					TaskList.getInstance(context).addTask(taskJSON.getLong("task_id"), taskJSON.getString("title"), taskJSON.getString("desc"), taskJSON.getString("from"), taskJSON.getString("to"), taskJSON.getString("location"), 0, false, false);
+					TaskAdapter.getInstance(context, R.layout.tasklist_item).notifyDataSetChanged();
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			
 			// Waking up mobile if it is sleeping
 			WakeLocker.acquire(getApplicationContext());
 			

@@ -78,6 +78,7 @@
         <receiver android:name="com.liorginsberg.lgtasks.MyBroadcastReceiver" >
         </receiver>
 
+        
         <activity
             android:name="com.liorginsberg.lgtasks.ShareOnFacebook"
             android:label="@string/app_name"

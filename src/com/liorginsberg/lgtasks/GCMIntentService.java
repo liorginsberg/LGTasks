@@ -1,11 +1,7 @@
 package com.liorginsberg.lgtasks;
 
 import static com.liorginsberg.lgtasks.CommonUtilities.SENDER_ID;
-import static com.liorginsberg.lgtasks.CommonUtilities.displayMessage;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import static com.liorginsberg.lgtasks.CommonUtilities.notifyApp;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -14,7 +10,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.google.android.gcm.GCMBaseIntentService;
-import com.liorginsberg.lgtasks.R;
+
 
 public class GCMIntentService extends GCMBaseIntentService {
 
@@ -51,23 +47,10 @@ public class GCMIntentService extends GCMBaseIntentService {
         Log.i(TAG, "Received message");
         String message = intent.getExtras().getString("message");
         
-        JSONObject taskJSON = null;
-		try {
-			taskJSON = new JSONObject(message);
-			String action = taskJSON.getString("action");
-			Log.i("PUSH", action);
-			if(action.equals("addTask")) {
-				TaskList.getInstance(getApplicationContext()).addTask(taskJSON.getLong("task_id"), taskJSON.getString("title"), taskJSON.getString("desc"), taskJSON.getString("from"), taskJSON.getString("to"), taskJSON.getString("location"), 0, false, false);
-				TaskAdapter.getInstance(context, R.layout.tasklist_item).notifyDataSetChanged();
-			}
-			
-			
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
+        notifyApp(context, message);
         
         // notifies user
-        generateNotification(context, message);
+        generateNotification(context, message);       
     }
 
     /**
