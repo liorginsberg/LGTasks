@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
@@ -21,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.PopupMenu;
+import android.widget.PopupMenu.OnDismissListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,7 +30,7 @@ public class TaskAdapter extends ArrayAdapter<Task> {
 
 	private static TaskAdapter instance = null;
 
-	
+
 	private TaskList taskList;
 
 	private enum TaskPopupMenu {
@@ -117,18 +119,32 @@ public class TaskAdapter extends ArrayAdapter<Task> {
 
 		public boolean onLongClick(View v) {
 			Log.i("LONG", "pressed " + position);
+			v.setBackgroundColor(Color.CYAN);
+		
 			showPopupMenu(v, position);
+			
 			return false;
 		}
 
-		private void showPopupMenu(View v, final int position) {
+		private void showPopupMenu(final View v, final int position) {
 
+			
 			PopupMenu popupMenu = new PopupMenu(context, v);
 			popupMenu.getMenuInflater().inflate(R.menu.item_popup_menu, popupMenu.getMenu());
-
+			
+			popupMenu.setOnDismissListener(new OnDismissListener() {
+				
+				@Override
+				public void onDismiss(PopupMenu menu) {
+					v.setBackgroundColor(Color.TRANSPARENT);
+				}
+			});
+			
 			popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 
 				public boolean onMenuItemClick(MenuItem item) {
+					
+					v.setBackgroundColor(Color.TRANSPARENT);
 					TaskPopupMenu itemClicked = TaskPopupMenu.valueOf(item.getTitle().toString().toUpperCase());
 					switch (itemClicked) {
 					case REMOVE:

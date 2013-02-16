@@ -11,11 +11,6 @@ import java.util.Locale;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
-
-import com.google.android.gcm.GCMBroadcastReceiver;
-import com.google.android.gcm.GCMRegistrar;
-
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -25,7 +20,6 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.provider.Settings.Secure;
 import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.view.View;
@@ -34,6 +28,8 @@ import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.google.android.gcm.GCMRegistrar;
 
 public class TaskListActivity extends Activity {
 
@@ -61,8 +57,30 @@ public class TaskListActivity extends Activity {
 	public static String user_email;
 	
 	private AsyncTask<Void, Void, Void> mRegisterTask;
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		try{
+			unregisterReceiver(mHandleMessageReceiver);
+		}catch(IllegalArgumentException e) {
+			Log.i("unRegisterReciver", "mHandleMessageReceiver is not registered");
+		}
+	}
 	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		registerReceiver(mHandleMessageReceiver, new IntentFilter(
+				DISPLAY_MESSAGE_ACTION));
+	}
 	
+	@Override
+	protected void onRestart() {
+		super.onRestart();
+		registerReceiver(mHandleMessageReceiver, new IntentFilter(
+				DISPLAY_MESSAGE_ACTION));
+	}
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -70,8 +88,7 @@ public class TaskListActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_task_list);
 		
-		
-		
+	
 		user_email = AccountsHelper.getEmail(this);
 		if(user_email == null) {
 			user_email = "test";
@@ -264,29 +281,60 @@ public class TaskListActivity extends Activity {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			String newMessage = intent.getExtras().getString(EXTRA_MESSAGE);
-			Log.i("mHandleMessageReceiver", newMessage);
+			if(newMessage == null) {
+				Log.i("mHandleMessageReceiver", "The intent does not have an extra value 'message'");
+			} else {
+				Log.i("mHandleMessageReceiver", newMessage);
 			
-			JSONObject taskJSON = null;
-			try {
-				taskJSON = new JSONObject(newMessage);
-				String action = taskJSON.getString("action");
-				Log.i("PUSH", action);
-				if(action.equals("addTask")) {
-					TaskList.getInstance(context).addTask(taskJSON.getLong("task_id"), taskJSON.getString("title"), taskJSON.getString("desc"), taskJSON.getString("from"), taskJSON.getString("to"), taskJSON.getString("location"), 0, false, false);
-					TaskAdapter.getInstance(context, R.layout.tasklist_item).notifyDataSetChanged();
+				JSONObject taskJSON = null;
+				try {
+					taskJSON = new JSONObject(newMessage);
+					String action = taskJSON.getString("action");
+					Log.i("PUSH", action);
+					if(action.equals("addTask")) {
+						TaskList.getInstance(context).addTask(taskJSON.getLong("task_id"), taskJSON.getString("title"), taskJSON.getString("desc"), taskJSON.getString("from"), taskJSON.getString("to"), taskJSON.getString("location"), 0, false, false);
+						TaskAdapter.getInstance(context, R.layout.tasklist_item).notifyDataSetChanged();						
+						
+					}else if(action.equals("removeTask")) {
+						long taskID = taskJSON.getLong("task_id");
+						boolean success = TaskList.getInstance(context).removeTaskByTaskID(taskID);
+						if(success) { 
+							Toast.makeText(context, "Task removed by LGTasks web application", Toast.LENGTH_SHORT).show();
+							TaskAdapter.getInstance(context, R.layout.tasklist_item).notifyDataSetChanged();
+						} else {
+							Toast.makeText(context, "Failed to remove Task by LGTasks web application", Toast.LENGTH_SHORT).show();
+						}
+						
+					}else if(action.equals("updateTask")) {
+						boolean success = TaskList.getInstance(context).updateTaskByTaskID(taskJSON.getLong("task_id"), taskJSON.getString("title"), taskJSON.getString("desc"),
+								taskJSON.getString("from"), taskJSON.getString("to"), taskJSON.getString("location"), taskJSON.getInt("checked"));
+						if(success) {
+							TaskAdapter.getInstance(context, R.layout.tasklist_item).notifyDataSetChanged();
+						} else {
+							Toast.makeText(context, "Failed to update Task by LGTasks web application", Toast.LENGTH_SHORT).show();
+						}
+						
+					}else if(action.equals("updateCheck")) {
+						boolean success = TaskList.getInstance(context).setDoneFromWeb(taskJSON.getLong("task_id"), taskJSON.getInt("checked"));
+						if(success) {
+							TaskAdapter.getInstance(context, R.layout.tasklist_item).notifyDataSetChanged();
+						} else {
+							Toast.makeText(context, "Failed to set Task done by LGTasks web application", Toast.LENGTH_SHORT).show();
+						}
+						
+					}else if(action.equals("GCMRegistration")) {
+						Toast.makeText(context, taskJSON.getString("message"), Toast.LENGTH_SHORT).show();
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
 				}
-			} catch (JSONException e) {
-				e.printStackTrace();
+				
+				// Waking up mobile if it is sleeping
+				WakeLocker.acquire(getApplicationContext());
+				
+				// Releasing wake lock
+				WakeLocker.release();
 			}
-			
-			// Waking up mobile if it is sleeping
-			WakeLocker.acquire(getApplicationContext());
-			
-			
-			
-			// Releasing wake lock
-			WakeLocker.release();
 		}
 	};
-	
 }

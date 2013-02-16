@@ -71,6 +71,18 @@ public class TaskList implements Observer {
 		}
 		
 	}
+	
+	public boolean updateTaskByTaskID(long task_id, String title, String desc, String from, String to, String location, int isChecked) {
+		Task temp = getTaskById(task_id);
+		int position = tasks.indexOf(temp);
+		boolean updated = taskDB.updateTask(task_id, title, desc, from, to, location, temp.isChecked());
+		if (updated) {
+			tasks.set(position, new Task(task_id, title, desc, from, to, location, isChecked));
+			return true;
+		}
+		return false;
+		
+	}
 
 	public boolean setDone(long task_id, int done) {
 		SharedPreferences prefs = context.getSharedPreferences(TaskListActivity.PREFS_NAME, 0);
@@ -80,6 +92,16 @@ public class TaskList implements Observer {
 		return taskDB.setDone(task_id, done);
 	}
 
+	public boolean setDoneFromWeb(long task_id, int done) {
+		Task temp = getTaskById(task_id);
+		boolean success = taskDB.setDone(task_id, done);
+		if(success) {
+			temp.setChecked(done);
+			return true;
+		}
+		return false;
+	}
+	
 	public int removeTask(int pos) {
 		long taskID = tasks.get(pos).getTask_id();
 		int rmRes = taskDB.removeTask(taskID);
@@ -92,6 +114,15 @@ public class TaskList implements Observer {
 			return 1;
 		}
 		return -1;
+	}
+	
+	public boolean removeTaskByTaskID(long taskID) {
+		int rmRes = taskDB.removeTask(taskID);
+		if(rmRes == 1) {
+			return tasks.remove(getTaskById(taskID));
+		} else {
+			return false;
+		}
 	}
 
 	public void getAllTasksFromDB() {

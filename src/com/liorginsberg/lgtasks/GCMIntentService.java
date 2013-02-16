@@ -46,11 +46,11 @@ public class GCMIntentService extends GCMBaseIntentService {
     protected void onMessage(Context context, Intent intent) {
         Log.i(TAG, "Received message");
         String message = intent.getExtras().getString("message");
-        
+        if(message.contains("action\": \"addTask")) {
+        	
+        	generateNotification(context, "New Task added at LGtasks");
+        }
         notifyApp(context, message);
-        
-        // notifies user
-        generateNotification(context, message);       
     }
 
     /**
@@ -84,9 +84,11 @@ public class GCMIntentService extends GCMBaseIntentService {
     /**
      * Issues a notification to inform the user that server has sent a message.
      */
-    private static void generateNotification(Context context, String message) {
+    public static void generateNotification(Context context, String message) {
       
     	Intent myIntent = new Intent(context, TaskListActivity.class);
+    	myIntent.setAction(Intent.ACTION_MAIN);
+    	myIntent.addCategory(Intent.CATEGORY_LAUNCHER);
 		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, myIntent, 0);
         NotificationManager notificationManager = (NotificationManager)
                 context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -95,7 +97,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 		.setContentText(message)
 		.setSmallIcon(R.drawable.no1)
 		.setContentIntent(pendingIntent)
-		.setTicker("New message").build();
+		.setTicker("New message from LGTasks").build();
 		notification.flags |= Notification.FLAG_AUTO_CANCEL;
 		notification.defaults |= Notification.DEFAULT_SOUND;
 		notificationManager.notify(1234, notification);
