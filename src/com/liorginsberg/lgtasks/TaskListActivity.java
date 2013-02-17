@@ -29,6 +29,11 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.facebook.Request;
+import com.facebook.Response;
+import com.facebook.Session;
+import com.facebook.SessionState;
+import com.facebook.model.GraphUser;
 import com.google.android.gcm.GCMRegistrar;
 
 public class TaskListActivity extends Activity {
@@ -39,6 +44,8 @@ public class TaskListActivity extends Activity {
 	static final private int ADD_TASK_REQUEST_CODE = 100;
 	static final public int EDIT_TASK_REQUEST_CODE = 101;
 
+	static public boolean isAppVisible = false;
+	
 	private ImageButton ibAddTask;
 	private ImageButton ibMaps;
 	private ImageButton ibSet;
@@ -61,16 +68,26 @@ public class TaskListActivity extends Activity {
 	@Override
 	protected void onPause() {
 		super.onPause();
+		Log.i("LGTASKSAPP", "onPause called");
 		try{
 			unregisterReceiver(mHandleMessageReceiver);
 		}catch(IllegalArgumentException e) {
 			Log.i("unRegisterReciver", "mHandleMessageReceiver is not registered");
 		}
+		
+	}
+	
+	@Override
+	protected void onStop() {
+		super.onStop();
+		Log.i("LGTASKSAPP", "onStop called");
 	}
 	
 	@Override
 	protected void onResume() {
 		super.onResume();
+		Log.i("LGTASKSAPP", "onResume called");
+				
 		registerReceiver(mHandleMessageReceiver, new IntentFilter(
 				DISPLAY_MESSAGE_ACTION));
 	}
@@ -78,6 +95,7 @@ public class TaskListActivity extends Activity {
 	@Override
 	protected void onRestart() {
 		super.onRestart();
+		Log.i("LGTASKSAPP", "onRestart called");
 		registerReceiver(mHandleMessageReceiver, new IntentFilter(
 				DISPLAY_MESSAGE_ACTION));
 	}
@@ -85,8 +103,39 @@ public class TaskListActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Log.i("LGTASKSAPP", "onCreate called");
+		
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_task_list);
+		
+		
+		isAppVisible = true;
+		
+		// start Facebook Login
+		Session.openActiveSession(this, true, new Session.StatusCallback() {
+
+			// callback when session changes state
+			@Override
+			public void call(Session session, SessionState state, Exception exception) {
+				if (session.isOpened()) {
+					System.out.println("About to open the face book login screen");
+
+					// make request to the /me API
+					Request.executeMeRequestAsync(session, new Request.GraphUserCallback() {
+
+						// callback after Graph API response with user object
+						@Override
+						public void onCompleted(GraphUser user, Response response) {
+							if (user != null) {
+								Toast.makeText(TaskListActivity.this, "Welocme " + user.getName(), Toast.LENGTH_SHORT).show();
+							}
+						}
+					});
+				}
+			}
+		});
+
+		
 		
 	
 		user_email = AccountsHelper.getEmail(this);
@@ -218,8 +267,7 @@ public class TaskListActivity extends Activity {
 			}
 			taskAdapter.notifyDataSetChanged();
 		}
-		// Session.getActiveSession().onActivityResult(this, requestCode,
-		// resultCode, data);
+		Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
 	}
 
 	private void initButtons() {

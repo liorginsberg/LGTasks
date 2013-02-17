@@ -54,9 +54,9 @@ public class TaskList implements Observer {
 			new HttpPostRequest(context).add(prefs.getString("userID", "-1"), task_id, title, desc, from, to, location, isChecked);
 		}
 		
-//		if (share) {
-//			new ShareTasks((Activity)context).postOpenGraphActivitiy(ShareTasks.ADD,taskToAdd);
-//		}
+		if (share) {
+			new ShareTasks((Activity)context).postOpenGraphActivitiy(ShareTasks.ADD,taskToAdd);
+		}
 		return task_id;
 	}
 

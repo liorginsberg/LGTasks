@@ -9,4 +9,31 @@
             android:summary="Backup to Remote Database"
             android:title="Backup Tasks" />
     </PreferenceCategory>
+    <PreferenceCategory
+        android:key="tasksFacebookShare"
+        android:title="Share" >
+        <PreferenceScreen
+            android:icon="@drawable/facebook_48px"
+            android:title="Facebook" >
+            <SwitchPreference
+                android:defaultValue="true"
+                android:key="autoShare"
+                android:summary="Allow Sharing with facebook"
+                android:title="Facebook Share" />
+
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:dependency="autoShare"
+                android:key="addTaskShare"
+                android:summary="publish when Adding new task"
+                android:title="Add Task" />
+            
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:dependency="autoShare"
+                android:key="finishTaskShare"
+                android:summary="publish when task is finished"
+                android:title="Finish Task" />
+        </PreferenceScreen>
+    </PreferenceCategory>
 </PreferenceScreen>

@@ -325,18 +325,19 @@ containing a value of this type.
         public static final int com_facebook_top_button=0x7f020021;
         public static final int com_facebook_usersettingsfragment_background_gradient=0x7f020022;
         public static final int custom_checkbox=0x7f020023;
-        public static final int hndle_new=0x7f020024;
-        public static final int ic_launcher=0x7f020025;
-        public static final int maps_ic=0x7f020026;
-        public static final int marke_65px=0x7f020027;
-        public static final int marker_user=0x7f020028;
-        public static final int mic_scetch=0x7f020029;
-        public static final int no1=0x7f02002a;
-        public static final int note_back=0x7f02002b;
-        public static final int note_top=0x7f02002c;
-        public static final int plus=0x7f02002d;
-        public static final int set=0x7f02002e;
-        public static final int unchecked=0x7f02002f;
+        public static final int facebook_48px=0x7f020024;
+        public static final int hndle_new=0x7f020025;
+        public static final int ic_launcher=0x7f020026;
+        public static final int maps_ic=0x7f020027;
+        public static final int marke_65px=0x7f020028;
+        public static final int marker_user=0x7f020029;
+        public static final int mic_scetch=0x7f02002a;
+        public static final int no1=0x7f02002b;
+        public static final int note_back=0x7f02002c;
+        public static final int note_top=0x7f02002d;
+        public static final int plus=0x7f02002e;
+        public static final int set=0x7f02002f;
+        public static final int unchecked=0x7f020030;
     }
     public static final class id {
         public static final int acLocation=0x7f050011;
