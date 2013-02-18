@@ -15,6 +15,8 @@ import java.util.Locale;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.google.analytics.tracking.android.EasyTracker;
+
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
@@ -123,7 +125,7 @@ public class AddTaskActivity extends Activity {
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-				System.out.println("Click");
+				EasyTracker.getTracker().sendEvent("ui_action", "clicked EditText", "Location autocomplete", null);
 			
 				try {
 					List<Address> a = geocoder.getFromLocationName(((TextView)arg1).getText().toString(),1);

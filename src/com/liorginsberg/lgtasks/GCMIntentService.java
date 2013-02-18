@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.google.android.gcm.GCMBaseIntentService;
 
 
@@ -44,12 +45,13 @@ public class GCMIntentService extends GCMBaseIntentService {
      * */
     @Override
     protected void onMessage(Context context, Intent intent) {
-        Log.i(TAG, "Received message");
+       
         String message = intent.getExtras().getString("message");
         if(message.contains("action\": \"addTask")) {
         	
-        	generateNotification(context, "New Task added at LGtasks");
+        	generateNotification(context, "New Task added to LGtasks");
         }
+        
         notifyApp(context, message);
     }
 

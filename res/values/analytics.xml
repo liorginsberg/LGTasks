@@ -1,0 +1,23 @@
+<resources xmlns:tools="https://schemas.android.com/tools" xmlns:tools1="http://schemas.android.com/tools" tools:ignore="TypographyDashes">
+
+    <!-- Replace placeholder ID with your tracking ID -->
+    <string name="ga_trackingId" tools1:ignore="TypographyDashes">UA-38566837-2</string>
+
+    <!-- Enable automatic activity tracking -->
+    <bool name="ga_autoActivityTracking">true</bool>
+
+    <!-- Enable automatic exception tracking -->
+    <bool name="ga_reportUncaughtExceptions">true</bool>
+
+    <!-- Print useful information about what data is being sent to Google Analytics in your logs -->
+    <bool name="ga_debug">true</bool>
+    
+    <!-- dry run lets you see what the tracker send when dispaching -->
+    <bool name="ga_dryRun">true</bool>
+
+    <!-- The screen names that will appear in your reporting -->
+    <string name="com.liorginsberg.lgtasks.TaskListActivity">Main Task List Activity</string>
+    <string name="com.liorginsberg.lgtasks.AddTaskActivity">Add Task Activity</string>
+	<string name="com.liorginsberg.lgtasks.MapActivity">Map Activity</string>
+	<string name="com.liorginsberg.lgtasks.Prefrences">Prefrences</string>
+</resources>

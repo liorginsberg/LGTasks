@@ -271,9 +271,9 @@ public class MapActivity extends Activity implements LocationListener {
 
 		@Override
 		public View getInfoWindow(Marker marker) {
-			int task_id;
+			long task_id;
 			try {
-				task_id = Integer.parseInt(marker.getTitle());
+				task_id = Long.parseLong(marker.getTitle());
 			} catch (Exception e) {
 				task_id = -1;
 			}
@@ -281,12 +281,14 @@ public class MapActivity extends Activity implements LocationListener {
 				LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 				View windowview = inflater.inflate(R.layout.task_window, null);
 
-				Task task = TaskList.getInstance(getApplicationContext()).getTaskById(Integer.parseInt(marker.getTitle()));
+				Task task = TaskList.getInstance(getApplicationContext()).getTaskById(Long.parseLong(marker.getTitle()));
 
 				((TextView) windowview.findViewById(R.id.tvTitleWin)).setText(task.getTitle());
 				((TextView) windowview.findViewById(R.id.tvDescriptionWin)).setText(task.getDesc());
 				((TextView) windowview.findViewById(R.id.tvLocationWin)).setText(task.getLocation());
 				((TextView) windowview.findViewById(R.id.tvFromToWin)).setText(task.getFromTo());
+				String status = (task.isChecked() == 1) ? "Done" : "Not Done";
+				((TextView) windowview.findViewById(R.id.tvStatusWin)).setText(status);
 				return windowview;
 			} else {
 				return null;

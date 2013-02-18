@@ -3,6 +3,8 @@ package com.liorginsberg.lgtasks;
 import java.io.IOException;
 import java.util.List;
 
+import com.google.analytics.tracking.android.EasyTracker;
+
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -148,6 +150,7 @@ public class TaskAdapter extends ArrayAdapter<Task> {
 					TaskPopupMenu itemClicked = TaskPopupMenu.valueOf(item.getTitle().toString().toUpperCase());
 					switch (itemClicked) {
 					case REMOVE:
+						EasyTracker.getTracker().sendEvent("ui_action", "select_context_menuItem", "REMOVE", null);
 						if (TaskList.getInstance(context).removeTask(position) == 1) {
 							notifyDataSetChanged();
 						} else {
@@ -155,13 +158,19 @@ public class TaskAdapter extends ArrayAdapter<Task> {
 						}
 						break;
 					case EDIT:
+						EasyTracker.getTracker().sendEvent("ui_action", "select_context_menuItem", "EDIT", null);
 						Intent editTaskIntent = new Intent();
 						editTaskIntent.setClass(context, AddTaskActivity.class);
 						editTaskIntent.putExtra("position", position);
 						((Activity) context).startActivityForResult(editTaskIntent, TaskListActivity.EDIT_TASK_REQUEST_CODE);
 						break;
 					case OPEN:
-						Toast.makeText(context, TaskList.getInstance(context).getTaskAt(position).getTitle(), Toast.LENGTH_LONG).show();
+						EasyTracker.getTracker().sendEvent("ui_action", "select_context_menuItem", "OPEN", null);
+						String desc = TaskList.getInstance(context).getTaskAt(position).getDesc();
+						if(desc.isEmpty()) {
+							desc = "Not provided";
+						}
+						Toast.makeText(context, desc, Toast.LENGTH_LONG).show();
 						break;
 					case SHARE:
 //						 final Intent shareIntent = new Intent(Intent.ACTION_DIAL);
@@ -180,6 +189,7 @@ public class TaskAdapter extends ArrayAdapter<Task> {
 //						context.startActivity(postOnFacebookWallIntent);
 						break;
 					case WAZE:
+						EasyTracker.getTracker().sendEvent("ui_action", "select_context_menuItem", "WAZE", null);
 						String location = TaskList.getInstance(context).getTaskAt(position).getLocation();
 						if (location.equals("Not specified")) {
 							Toast.makeText(context, location, Toast.LENGTH_SHORT).show();
