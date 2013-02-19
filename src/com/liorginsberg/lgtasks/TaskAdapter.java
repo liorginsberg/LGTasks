@@ -3,13 +3,12 @@ package com.liorginsberg.lgtasks;
 import java.io.IOException;
 import java.util.List;
 
-import com.google.analytics.tracking.android.EasyTracker;
-
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.TransitionDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
@@ -21,12 +20,18 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnDismissListener;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.analytics.tracking.android.EasyTracker;
 
 public class TaskAdapter extends ArrayAdapter<Task> {
 
@@ -102,6 +107,19 @@ public class TaskAdapter extends ArrayAdapter<Task> {
 		boolean ch = isChecked == 0 ? false : true;
 		holder.chbDone.setChecked(ch);
 
+		
+		if(t.animated == false) {
+	
+			t.animated = true;
+			final Animation animation = new AlphaAnimation(0, 1); // Change alpha from fully visible to invisible
+		    animation.setDuration(250); // duration - half a second
+		    animation.setInterpolator(new LinearInterpolator()); // do not alter animation rate
+		    animation.setRepeatCount(8); // Repeat animation infinitely
+		    animation.setRepeatMode(Animation.REVERSE); // Reverse animation at the end so the button will fade back in
+		    convertView.startAnimation(animation);
+			
+		}
+		
 		return convertView;
 	}
 
@@ -111,6 +129,8 @@ public class TaskAdapter extends ArrayAdapter<Task> {
 		TextView tvDate;
 	}
 
+	
+	
 	class OnItemLongClickListener implements OnLongClickListener {
 
 		private int position;

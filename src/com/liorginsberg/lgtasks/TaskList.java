@@ -43,11 +43,15 @@ public class TaskList implements Observer {
 	}
 
 	public long addTask(long task_id, String title, String desc, String from, String to, String location, int isChecked, boolean updateRemoteDB, boolean share) {
+		
+		boolean animated = true;
 		if(task_id == -1) {
 			task_id = System.currentTimeMillis();
+			animated = false;
 		}
 		taskDB.open().insertTask(task_id, title, desc, from, to, location, isChecked);
 		Task taskToAdd = new Task(task_id, title, desc, from, to, location, isChecked);
+		taskToAdd.animated = animated;
 		tasks.add(taskToAdd);
 		if (updateRemoteDB) {
 			SharedPreferences prefs = context.getSharedPreferences(TaskListActivity.PREFS_NAME, 0);

@@ -97,7 +97,9 @@ public class TaskDB {
 			
 			
 			for(c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
-				tasksList.add(new Task(c.getLong(iRow), c.getString(iTitle), c.getString(iDesc), c.getString(iFrom), c.getString(iTo), c.getString(ilocation), c.getInt(iChecked)));
+				Task newTask = new Task(c.getLong(iRow), c.getString(iTitle), c.getString(iDesc), c.getString(iFrom), c.getString(iTo), c.getString(ilocation), c.getInt(iChecked));
+				newTask.animated = true;
+				tasksList.add(newTask);
 			}
 		} catch (SQLException e) {
 			Toast.makeText(context, "Could Not open database error", Toast.LENGTH_LONG).show();

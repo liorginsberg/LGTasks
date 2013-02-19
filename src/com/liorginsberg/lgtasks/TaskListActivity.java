@@ -1,8 +1,8 @@
 package com.liorginsberg.lgtasks;
 
 import static com.liorginsberg.lgtasks.CommonUtilities.DISPLAY_MESSAGE_ACTION;
-import static com.liorginsberg.lgtasks.CommonUtilities.SENDER_ID;
 import static com.liorginsberg.lgtasks.CommonUtilities.EXTRA_MESSAGE;
+import static com.liorginsberg.lgtasks.CommonUtilities.SENDER_ID;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -17,6 +17,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.drawable.TransitionDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -261,6 +262,7 @@ public class TaskListActivity extends Activity {
 			switch (requestCode) {
 			case ADD_TASK_REQUEST_CODE:
 				scrollMyListViewToBottom();
+				
 				break;
 			case EDIT_TASK_REQUEST_CODE:
 				break;
@@ -308,6 +310,8 @@ public class TaskListActivity extends Activity {
 				break;
 			}
 			taskAdapter.notifyDataSetChanged();
+			
+			
 		}
 		Session.getActiveSession().onActivityResult(this, requestCode,
 				resultCode, data);

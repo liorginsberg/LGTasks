@@ -14,6 +14,8 @@ public class Task {
 	private Calendar calendarTo;
 	private String location;
 	private int isChecked;
+	
+	public boolean animated = false;
 
   
 	public Task(long taskID, String title, String desc, String from, String to, String location, int isChecked) {
