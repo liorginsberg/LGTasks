@@ -59,12 +59,11 @@ public class MapActivity extends Activity implements LocationListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		setContentView(R.layout.activity_map);
 
 		SharedPreferences prefs = getApplicationContext().getSharedPreferences(TaskListActivity.PREFS_NAME, 0);
 		boolean isShowAll = prefs.getBoolean("mapShowAll", false);
-		
-		
 
 		chbShowAll = (CheckBox) findViewById(R.id.chbShowAll);
 		chbShowAll.setChecked(isShowAll);
@@ -124,38 +123,39 @@ public class MapActivity extends Activity implements LocationListener {
 					sbRadOuter.setMax(100);
 				} else if (camera.zoom < 12.0 && camera.zoom >= 11.0) {
 					sbRadOuter.setMax(200);
-				}else if (camera.zoom < 11.0 && camera.zoom >= 10.0) {
+				} else if (camera.zoom < 11.0 && camera.zoom >= 10.0) {
 					sbRadOuter.setMax(400);
-				}else if (camera.zoom < 10.0 && camera.zoom >= 9.0) {
+				} else if (camera.zoom < 10.0 && camera.zoom >= 9.0) {
 					sbRadOuter.setMax(800);
-				}else if (camera.zoom < 9.0 && camera.zoom >= 8.0) {
+				} else if (camera.zoom < 9.0 && camera.zoom >= 8.0) {
 					sbRadOuter.setMax(1600);
-				}else if (camera.zoom < 8.0 && camera.zoom >= 7.0) {
+				} else if (camera.zoom < 8.0 && camera.zoom >= 7.0) {
 					sbRadOuter.setMax(3200);
-				}else if (camera.zoom < 7.0 && camera.zoom >= 6.0) {
+				} else if (camera.zoom < 7.0 && camera.zoom >= 6.0) {
 					sbRadOuter.setMax(6400);
-				}else if (camera.zoom < 6.0 && camera.zoom >= 5.0) {
+				} else if (camera.zoom < 6.0 && camera.zoom >= 5.0) {
 					sbRadOuter.setMax(12800);
-				}else if (camera.zoom < 5.0 && camera.zoom >= 4.0) {
+				} else if (camera.zoom < 5.0 && camera.zoom >= 4.0) {
 					sbRadOuter.setMax(25600);
-				}else if (camera.zoom < 4.0 && camera.zoom >= 3.0) {
+				} else if (camera.zoom < 4.0 && camera.zoom >= 3.0) {
 					sbRadOuter.setMax(51200);
 				}
 			}
 		});
+
 	}
 
 	private void showAll(boolean showAll) {
 
 		for (Marker marker : markersOnMap) {
-			if(showAll) {
+			if (showAll) {
 				marker.setVisible(true);
 			} else {
 				Location myLoc = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 				Location markerLoc = new Location("marker");
 				markerLoc.setLatitude(marker.getPosition().latitude);
 				markerLoc.setLongitude(marker.getPosition().longitude);
-				if(myLoc.distanceTo(markerLoc) > sbRadOuter.getProgress() * 100) {
+				if (myLoc.distanceTo(markerLoc) > sbRadOuter.getProgress() * 100) {
 					marker.setVisible(false);
 				} else {
 					marker.setVisible(true);

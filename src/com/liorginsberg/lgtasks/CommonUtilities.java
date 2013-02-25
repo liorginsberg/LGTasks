@@ -2,6 +2,8 @@ package com.liorginsberg.lgtasks;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.util.DisplayMetrics;
 
 public final class CommonUtilities {
 	
@@ -35,4 +37,11 @@ public final class CommonUtilities {
         intent.putExtra(EXTRA_MESSAGE, message);
         context.sendBroadcast(intent);
     }
+    
+    public static float convertDpToPixel(float dp,Context context){
+	    Resources resources = context.getResources();
+	    DisplayMetrics metrics = resources.getDisplayMetrics();
+	    float px = dp * (metrics.densityDpi/160f);
+	    return px;
+	}
 }

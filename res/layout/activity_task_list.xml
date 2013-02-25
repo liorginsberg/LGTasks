@@ -30,7 +30,7 @@
             android:dividerHeight="0dp" />
 
         <LinearLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
+
             android:id="@+id/bottom_bar"
             android:layout_width="fill_parent"
             android:layout_height="70dp"
@@ -85,5 +85,114 @@
                  android:contentDescription="@string/graphical_image"
                 android:src="@drawable/set" />
         </LinearLayout>
+    </RelativeLayout>
+    
+    <RelativeLayout
+        android:id="@+id/tutOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#77000000"
+        android:visibility="visible" >
+
+        <LinearLayout
+            android:id="@+id/overNav"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/prev"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/prev"
+                android:visibility="invisible" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:id="@+id/pager"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/one" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/slash" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/five" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/next"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_weight="1"
+                android:src="@drawable/over_next" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/overNav"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical"
+            android:padding="20dp" >
+
+            <TextView
+                android:id="@+id/tutTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add New Task"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@android:color/holo_blue_bright"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/tutDesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:ellipsize="marquee"
+                android:text="Click on the PLUS sign to add a new Task to the list."
+                android:textColor="#FFFFFF"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+       <CheckBox android:id="@+id/chb_nevershow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Never show again"
+        android:layout_above="@+id/tutArrow"
+        android:layout_marginBottom="20dp"
+        android:textColor="#FFFFFF"
+        android:button="@drawable/white_checkbox"
+        android:layout_marginLeft="20dp"
+        android:paddingLeft="5dp" />
+        
+        <ImageView
+            android:id="@+id/tutArrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+        
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="70dp"
+            android:layout_marginLeft="35dp"
+            android:src="@drawable/add_arrow" />
     </RelativeLayout>
 </FrameLayout>

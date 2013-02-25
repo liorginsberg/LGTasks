@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="tutorialTitles">
+        <item>Add New Task</item>
+        <item>Show Tutorial</item>
+        <item>Add Task By Voice</item>
+        <item>Map View</item>
+        <item>Settings</item>
+    </string-array>
+    
+     <string-array name="tutorialDesc">
+        <item>Click on the PLUS sign to add a new Task to the list.</item>
+        <item>When clicking on the help button this tutorial will overlay the screen. you can remove it by touching anywere on screen.</item>
+        <item>Click on the Mic button to quickly add a new Task to the list via voice. Note that the task will be added with the default values and no description.</item>
+        <item>The MAP section provides a location based position view of your tasks. Loading might take a while and depends on your location base service.</item>
+        <item>Navigate to the Settings section and define how your application will behave. You can adjust the sharing intencity, database backup, notifications and etc.</item>
+    </string-array>
+
+    <array name="numbers">
+        <item>@drawable/one</item>
+        <item>@drawable/two</item>
+        <item>@drawable/three</item>
+        <item>@drawable/four</item>
+        <item>@drawable/five</item>
+        <item>@drawable/six</item>
+    </array>
+    
+    <array name="arrows">
+        <item>@drawable/add_arrow</item>
+        <item>@drawable/second_arrow</item>
+        <item>@drawable/mic_arrow</item>
+        <item>@drawable/map_arrow</item>
+        <item>@drawable/setting_arrow</item>
+    </array>
+
+</resources>
