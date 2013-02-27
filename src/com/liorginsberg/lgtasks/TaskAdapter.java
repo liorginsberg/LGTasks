@@ -5,10 +5,13 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Color;
-import android.graphics.drawable.TransitionDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
@@ -24,7 +27,6 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnDismissListener;
@@ -193,10 +195,32 @@ public class TaskAdapter extends ArrayAdapter<Task> {
 						Toast.makeText(context, desc, Toast.LENGTH_LONG).show();
 						break;
 					case SHARE:
-//						 final Intent shareIntent = new Intent(Intent.ACTION_DIAL);
+
+						Intent shareIntent = new Intent(context, ShareActivity.class);
+						
+						((Activity)context).startActivityForResult(shareIntent, 11211111);
+						
+////						Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+////						shareIntent.setType("text/plain");
+////						shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Content to share");
+////						PackageManager pm = v.getContext().getPackageManager();
+////						List<ResolveInfo> activityList = pm.queryIntentActivities(shareIntent, 0);
+////						for (final ResolveInfo app : activityList) {
+////						    if ((app.activityInfo.name).contains("facebook")) {
+////						        final ActivityInfo activity = app.activityInfo;
+////						        final ComponentName name = new ComponentName(activity.applicationInfo.packageName, activity.name);
+////						        shareIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+////						        shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+////						        shareIntent.setComponent(name);
+////						        v.getContext().startActivity(shareIntent);
+////						        break;
+////						   }
+////						}
+//						
+//						final Intent shareIntent = new Intent(Intent.ACTION_SEND);
 //						 shareIntent.setType("text/plain");
-//						 shareIntent.putExtra(Intent.EXTRA_TEXT, TaskList.getInstance(context).getTaskAt(position).getTitle());
-//						 shareIntent.putExtra(Intent.EXTRA_SUBJECT, TaskList.getInstance(context).getTaskAt(position).getDesc());
+//						 shareIntent.putExtra(Intent.EXTRA_TEXT, TaskList.getInstance(context).getTaskAt(position).getDesc());
+//						 shareIntent.putExtra(Intent.EXTRA_SUBJECT, TaskList.getInstance(context).getTaskAt(position).getTitle());
 //
 //					        try {
 //					          context.startActivity(Intent.createChooser(shareIntent, "Select an action"));

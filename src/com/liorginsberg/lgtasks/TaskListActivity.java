@@ -376,13 +376,38 @@ public class TaskListActivity extends Activity {
 
 	
 	
-
+	
 	
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == RESULT_OK) {
 			switch (requestCode) {
+			case 11211111:
+					switch (data.getIntExtra("action", -1)) {
+					case R.drawable.gmail:
+						Log.i("RES SHARE","gmail handle");
+						break;
+					case R.drawable.face:
+						Log.i("RES SHARE","face handle");
+						break;
+					case R.drawable.tweet:
+						Log.i("RES SHARE","tweet handle");
+						break;
+					case R.drawable.message:
+						Log.i("RES SHARE","sms handle");
+						break;
+					case R.drawable.google:
+						Log.i("RES SHARE","google handle");
+						break;
+					case R.drawable.skype:
+						Log.i("RES SHARE","skype handle");
+						break;
+
+					default:
+						break;
+					}
+				break;
 			case ADD_TASK_REQUEST_CODE:
 				scrollMyListViewToBottom();
 
