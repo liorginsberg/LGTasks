@@ -6,6 +6,7 @@ import static com.liorginsberg.lgtasks.CommonUtilities.SENDER_ID;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 import org.json.JSONException;
@@ -13,10 +14,14 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.net.Uri;
@@ -54,6 +59,7 @@ public class TaskListActivity extends Activity {
 	static final private int VOICE_RECOGNITION_REQUEST_CODE = 1121;
 	static final private int ADD_TASK_REQUEST_CODE = 100;
 	static final public int EDIT_TASK_REQUEST_CODE = 101;
+	static final public int SHARE_REQUEST_CODE = 11211111;
 	
 	private static int pager = 0;
 
@@ -374,40 +380,72 @@ public class TaskListActivity extends Activity {
 		}
 	};
 
-	
-	
-	
-	
-
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == RESULT_OK) {
 			switch (requestCode) {
-			case 11211111:
+			case SHARE_REQUEST_CODE:
+					Task taskToShare = null;
+					ComponentName name = null;
+					Intent shareIntent = new Intent(Intent.ACTION_SEND);
+					shareIntent.setType("text/plain");
+					
+					long taskID = data.getLongExtra("taskID", -1);
+					if(taskID != -1) {
+						taskToShare = TaskList.getInstance(this).getTaskById(taskID);
+					}
 					switch (data.getIntExtra("action", -1)) {
 					case R.drawable.gmail:
-						Log.i("RES SHARE","gmail handle");
+
+						shareIntent.putExtra(Intent.EXTRA_SUBJECT, taskToShare.getTitle());
+						shareIntent.putExtra(Intent.EXTRA_TEXT, taskToShare.getDesc());
+						name = new ComponentName("com.google.android.gm", "com.android.mail.compose.ComposeActivityGmail");
+						
 						break;
 					case R.drawable.face:
-						Log.i("RES SHARE","face handle");
+
+						shareIntent.putExtra(Intent.EXTRA_SUBJECT, "http://www.liorginsberg.com/lgtasks/img/ic_launcher.png");
+						shareIntent.putExtra(Intent.EXTRA_TEXT, "http://www.liorginsberg.com/lgtasks/img/ic_launcher.png");
+						name = new ComponentName("com.facebook.katana", "com.facebook.katana.activity.composer.ImplicitShareIntentHandler");
+						
 						break;
+					
 					case R.drawable.tweet:
-						Log.i("RES SHARE","tweet handle");
+
+						shareIntent.putExtra(Intent.EXTRA_TEXT, taskToShare.getTitle());
+						name = new ComponentName("com.twitter.android", "com.twitter.android.PostActivity");
+					
 						break;
 					case R.drawable.message:
-						Log.i("RES SHARE","sms handle");
+						
+						
+						Intent smsIntent = new Intent(Intent.ACTION_VIEW);
+						smsIntent.putExtra("sms_body", taskToShare.getTitle());  
+						smsIntent.setType("vnd.android-dir/mms-sms"); 
+						startActivity(smsIntent);
+									
 						break;
 					case R.drawable.google:
-						Log.i("RES SHARE","google handle");
+						
+						shareIntent.putExtra(Intent.EXTRA_TEXT, taskToShare.getTitle());
+						name = new ComponentName("com.google.android.googlequicksearchbox", "com.google.android.googlequicksearchbox.SearchActivity");
+						
 						break;
 					case R.drawable.skype:
-						Log.i("RES SHARE","skype handle");
+						shareIntent.putExtra(Intent.EXTRA_TEXT, taskToShare.getTitle());
+						name = new ComponentName("com.skype.raider", "com.skype.raider.Main");
 						break;
 
 					default:
 						break;
 					}
-				break;
+					if(name != null) {
+						shareIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+						shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+						shareIntent.setComponent(name);
+						startActivity(shareIntent);
+					}
+					break;
 			case ADD_TASK_REQUEST_CODE:
 				scrollMyListViewToBottom();
 
@@ -444,7 +482,10 @@ public class TaskListActivity extends Activity {
 				break;
 			}
 			taskAdapter.notifyDataSetChanged();
-
+			
+			//update the widget
+			sendBroadcast(new Intent(WidgetProvider.ACTION_UPDATE));
+			
 		}
 		Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
 	}

@@ -388,17 +388,18 @@ containing a value of this type.
         public static final int skype=0x7f020040;
         public static final int slash=0x7f020041;
         public static final int three=0x7f020042;
-        public static final int torn_no_edges=0x7f020043;
-        public static final int tweet=0x7f020044;
-        public static final int two=0x7f020045;
-        public static final int unchecked=0x7f020046;
-        public static final int white_check=0x7f020047;
-        public static final int white_checkbox=0x7f020048;
-        public static final int white_uncheck=0x7f020049;
+        public static final int top_bar=0x7f020043;
+        public static final int torn_no_edges=0x7f020044;
+        public static final int tweet=0x7f020045;
+        public static final int two=0x7f020046;
+        public static final int unchecked=0x7f020047;
+        public static final int white_check=0x7f020048;
+        public static final int white_checkbox=0x7f020049;
+        public static final int white_uncheck=0x7f02004a;
+        public static final int widget_preview=0x7f02004b;
     }
     public static final class id {
         public static final int acLocation=0x7f060011;
-        public static final int action_settings=0x7f060051;
         public static final int addTaskFromLabel=0x7f06000a;
         public static final int addTaskLocationLabel=0x7f060010;
         public static final int addTaskToLabel=0x7f06000d;
@@ -437,16 +438,16 @@ containing a value of this type.
         public static final int etAddTaskDesc=0x7f060009;
         public static final int etAddTaskTitle=0x7f060008;
         public static final int gridview=0x7f06001c;
-        public static final int group_popupmenu=0x7f06004b;
+        public static final int group_popupmenu=0x7f06004e;
         public static final int handle=0x7f060017;
         public static final int large=0x7f060002;
         public static final int lvMainTaskList=0x7f06001e;
         public static final int map=0x7f060014;
-        public static final int menu1=0x7f06004c;
-        public static final int menu2=0x7f06004d;
-        public static final int menu3=0x7f06004e;
-        public static final int menu4=0x7f06004f;
-        public static final int menu5=0x7f060050;
+        public static final int menu1=0x7f06004f;
+        public static final int menu2=0x7f060050;
+        public static final int menu3=0x7f060051;
+        public static final int menu4=0x7f060052;
+        public static final int menu5=0x7f060053;
         public static final int next=0x7f060029;
         public static final int none=0x7f060003;
         public static final int normal=0x7f060001;
@@ -454,6 +455,7 @@ containing a value of this type.
         public static final int pager=0x7f060028;
         public static final int picker_subtitle=0x7f06003f;
         public static final int prev=0x7f060027;
+        public static final int refreshWidget=0x7f06004b;
         public static final int satellite=0x7f060004;
         public static final int sbRad=0x7f06001b;
         public static final int search_box=0x7f06003e;
@@ -463,6 +465,7 @@ containing a value of this type.
         public static final int spDateTo=0x7f06000e;
         public static final int spTimeFrom=0x7f06000c;
         public static final int spTimeTo=0x7f06000f;
+        public static final int tasks=0x7f06004c;
         public static final int terrain=0x7f060005;
         public static final int textView2=0x7f060012;
         public static final int top=0x7f06001d;
@@ -479,6 +482,7 @@ containing a value of this type.
         public static final int tvTaskDate=0x7f06004a;
         public static final int tvTaskTitle=0x7f060048;
         public static final int tvTitleWin=0x7f060043;
+        public static final int words=0x7f06004d;
     }
     public static final class layout {
         public static final int activity_add_task=0x7f030000;
@@ -501,10 +505,11 @@ containing a value of this type.
         public static final int list_footer=0x7f030011;
         public static final int task_window=0x7f030012;
         public static final int tasklist_item=0x7f030013;
+        public static final int widget=0x7f030014;
+        public static final int widget_row=0x7f030015;
     }
     public static final class menu {
         public static final int item_popup_menu=0x7f0d0000;
-        public static final int share=0x7f0d0001;
     }
     public static final class string {
         public static final int _e_g_hashlosha_4_tel_aviv=0x7f070033;
@@ -653,6 +658,7 @@ containing a value of this type.
     }
     public static final class xml {
         public static final int prefs=0x7f050000;
+        public static final int widget_provider=0x7f050001;
     }
     public static final class styleable {
         /** Attributes that can be used with a MapAttrs.

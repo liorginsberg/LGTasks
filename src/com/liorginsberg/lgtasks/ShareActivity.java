@@ -20,6 +20,8 @@ import android.widget.ImageView;
 
 public class ShareActivity extends Activity {
 
+	private long taskID = -1;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -27,6 +29,7 @@ public class ShareActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_share);
 		
+		taskID = getIntent().getLongExtra("taskID", -1);
 		
 		ArrayList<Integer> images = new ArrayList<Integer>();
 		
@@ -55,10 +58,7 @@ public class ShareActivity extends Activity {
 		    	images.add(R.drawable.skype);
 		    }
 
-
-		       
 		}
-		
 		
 		GridView gridview = (GridView) findViewById(R.id.gridview);
 		
@@ -69,6 +69,7 @@ public class ShareActivity extends Activity {
 	        public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 	            Intent resIntent = new Intent();
 	            resIntent.putExtra("action", (Integer)v.getTag());
+	            resIntent.putExtra("taskID", taskID);
 	        	setResult(RESULT_OK, resIntent);
 	        	finish();
 	        }

@@ -196,41 +196,12 @@ public class TaskAdapter extends ArrayAdapter<Task> {
 						break;
 					case SHARE:
 
+						long taskID = TaskList.getInstance(context).getTaskAt(position).getTask_id();
+						
 						Intent shareIntent = new Intent(context, ShareActivity.class);
+						shareIntent.putExtra("taskID", taskID);
+						((Activity)context).startActivityForResult(shareIntent, TaskListActivity.SHARE_REQUEST_CODE);
 						
-						((Activity)context).startActivityForResult(shareIntent, 11211111);
-						
-////						Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
-////						shareIntent.setType("text/plain");
-////						shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Content to share");
-////						PackageManager pm = v.getContext().getPackageManager();
-////						List<ResolveInfo> activityList = pm.queryIntentActivities(shareIntent, 0);
-////						for (final ResolveInfo app : activityList) {
-////						    if ((app.activityInfo.name).contains("facebook")) {
-////						        final ActivityInfo activity = app.activityInfo;
-////						        final ComponentName name = new ComponentName(activity.applicationInfo.packageName, activity.name);
-////						        shareIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-////						        shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-////						        shareIntent.setComponent(name);
-////						        v.getContext().startActivity(shareIntent);
-////						        break;
-////						   }
-////						}
-//						
-//						final Intent shareIntent = new Intent(Intent.ACTION_SEND);
-//						 shareIntent.setType("text/plain");
-//						 shareIntent.putExtra(Intent.EXTRA_TEXT, TaskList.getInstance(context).getTaskAt(position).getDesc());
-//						 shareIntent.putExtra(Intent.EXTRA_SUBJECT, TaskList.getInstance(context).getTaskAt(position).getTitle());
-//
-//					        try {
-//					          context.startActivity(Intent.createChooser(shareIntent, "Select an action"));
-//					        } catch (android.content.ActivityNotFoundException ex) {
-//					          // (handle error)
-//					        }
-						
-//						Intent postOnFacebookWallIntent = new Intent(context, ShareOnFacebook.class);
-//						postOnFacebookWallIntent.putExtra("position", position);
-//						context.startActivity(postOnFacebookWallIntent);
 						break;
 					case WAZE:
 						EasyTracker.getTracker().sendEvent("ui_action", "select_context_menuItem", "WAZE", null);

@@ -3,14 +3,14 @@ package com.liorginsberg.lgtasks;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.appwidget.AppWidgetManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 
@@ -61,6 +61,7 @@ public class TaskList implements Observer {
 		if (share) {
 			new ShareTasks((Activity)context).postOpenGraphActivitiy(ShareTasks.ADD,taskToAdd);
 		}
+		
 		return task_id;
 	}
 
