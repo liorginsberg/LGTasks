@@ -206,8 +206,9 @@ public class TaskAdapter extends ArrayAdapter<Task> {
 					case WAZE:
 						EasyTracker.getTracker().sendEvent("ui_action", "select_context_menuItem", "WAZE", null);
 						String location = TaskList.getInstance(context).getTaskAt(position).getLocation();
-						if (location.equals("Not specified")) {
-							Toast.makeText(context, location, Toast.LENGTH_SHORT).show();
+						if (location.equals("")) {
+							Toast.makeText(context, "Location not specified", Toast.LENGTH_SHORT).show();
+							return false;
 						} else {
 							try {
 								List<Address> address;
@@ -217,7 +218,7 @@ public class TaskAdapter extends ArrayAdapter<Task> {
 									address = null;
 									e.printStackTrace();
 								}
-								if (address == null) {
+								if (address == null || address.size() == 0) {
 									Toast.makeText(context, "Could not aquire your location", Toast.LENGTH_SHORT).show();
 									return false;
 								}

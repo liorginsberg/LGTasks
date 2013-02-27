@@ -438,16 +438,16 @@ containing a value of this type.
         public static final int etAddTaskDesc=0x7f060009;
         public static final int etAddTaskTitle=0x7f060008;
         public static final int gridview=0x7f06001c;
-        public static final int group_popupmenu=0x7f06004e;
+        public static final int group_popupmenu=0x7f06004f;
         public static final int handle=0x7f060017;
         public static final int large=0x7f060002;
         public static final int lvMainTaskList=0x7f06001e;
         public static final int map=0x7f060014;
-        public static final int menu1=0x7f06004f;
-        public static final int menu2=0x7f060050;
-        public static final int menu3=0x7f060051;
-        public static final int menu4=0x7f060052;
-        public static final int menu5=0x7f060053;
+        public static final int menu1=0x7f060050;
+        public static final int menu2=0x7f060051;
+        public static final int menu3=0x7f060052;
+        public static final int menu4=0x7f060053;
+        public static final int menu5=0x7f060054;
         public static final int next=0x7f060029;
         public static final int none=0x7f060003;
         public static final int normal=0x7f060001;
@@ -455,7 +455,6 @@ containing a value of this type.
         public static final int pager=0x7f060028;
         public static final int picker_subtitle=0x7f06003f;
         public static final int prev=0x7f060027;
-        public static final int refreshWidget=0x7f06004b;
         public static final int satellite=0x7f060004;
         public static final int sbRad=0x7f06001b;
         public static final int search_box=0x7f06003e;
@@ -469,6 +468,7 @@ containing a value of this type.
         public static final int terrain=0x7f060005;
         public static final int textView2=0x7f060012;
         public static final int top=0x7f06001d;
+        public static final int top_widget=0x7f06004b;
         public static final int tutArrow=0x7f06002d;
         public static final int tutDesc=0x7f06002b;
         public static final int tutOverlay=0x7f060025;
@@ -482,7 +482,8 @@ containing a value of this type.
         public static final int tvTaskDate=0x7f06004a;
         public static final int tvTaskTitle=0x7f060048;
         public static final int tvTitleWin=0x7f060043;
-        public static final int words=0x7f06004d;
+        public static final int widget_logo=0x7f06004d;
+        public static final int words=0x7f06004e;
     }
     public static final class layout {
         public static final int activity_add_task=0x7f030000;

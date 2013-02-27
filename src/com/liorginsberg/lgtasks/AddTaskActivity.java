@@ -222,6 +222,7 @@ public class AddTaskActivity extends Activity {
 				String fromString = spDateFrom.getText().toString() + " " + spTimeFrom.getText().toString();
 				String toString = spDateTo.getText().toString() + " " + spTimeTo.getText().toString();
 				String location = autoCompleteTextView.getText().toString();
+			
 				long task_id;
 				if (!taskTitle.isEmpty()) {
 					if(position == -1) {
