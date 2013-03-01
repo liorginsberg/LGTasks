@@ -16,7 +16,6 @@ package com.liorginsberg.lgtasks;
 
 import java.util.List;
 
-import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
@@ -26,11 +25,11 @@ public class LGTasksViewsFactory implements RemoteViewsService.RemoteViewsFactor
 
 	private List<Task> mWidgetItems;
 	private Context ctxt = null;
-	private int appWidgetId;
+
 
 	public LGTasksViewsFactory(Context ctxt, Intent intent) {
 		this.ctxt = ctxt;
-		appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+		
 	}
 
 	@Override

@@ -8,11 +8,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
-import android.appwidget.AppWidgetManager;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 public class TaskList implements Observer {
 	private static TaskList instance = null;
@@ -151,7 +148,7 @@ public class TaskList implements Observer {
 		try {
 			taskJASON = new JSONObject(response);
 			JSONArray tasksArray = taskJASON.getJSONArray("tasks");
-			Log.i("DATA", tasksArray.toString());
+			
 
 			for (int i = 0; i < tasksArray.length(); i++) {
 				JSONObject t = tasksArray.getJSONObject(i);

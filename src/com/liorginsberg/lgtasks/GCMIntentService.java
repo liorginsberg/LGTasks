@@ -7,19 +7,16 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
-import com.google.analytics.tracking.android.EasyTracker;
 import com.google.android.gcm.GCMBaseIntentService;
 
 
 public class GCMIntentService extends GCMBaseIntentService {
 
-	private static final String TAG = "GCMIntentService";
-
+	
     public GCMIntentService() {
         super(SENDER_ID);
-        Log.i(TAG, "construct with "+ SENDER_ID);
+       
     }
 
     /**
@@ -27,16 +24,15 @@ public class GCMIntentService extends GCMBaseIntentService {
      **/
     @Override
     protected void onRegistered(Context context, String registrationId) {
-        Log.i(TAG, "Device registered: regId = " + registrationId);
         ServerUtilities.register(context, TaskListActivity.user_name, TaskListActivity.user_email, registrationId);
     }
 
     /**
-     * Method called on device un registred
+     * Method called on device unregistered
      * */
     @Override
     protected void onUnregistered(Context context, String registrationId) {
-        Log.i(TAG, "Device unregistered");
+       
         ServerUtilities.unregister(context, registrationId);
     }
 
@@ -60,7 +56,7 @@ public class GCMIntentService extends GCMBaseIntentService {
      * */
     @Override
     protected void onDeletedMessages(Context context, int total) {
-        Log.i(TAG, "Received deleted messages notification");
+      
         String message = getString(R.string.gcm_deleted, total);
        
         // notifies user
@@ -72,14 +68,11 @@ public class GCMIntentService extends GCMBaseIntentService {
      * */
     @Override
     public void onError(Context context, String errorId) {
-        Log.i(TAG, "Received error: " + errorId);
+      
     }
 
     @Override
     protected boolean onRecoverableError(Context context, String errorId) {
-        // log message
-        Log.i(TAG, "Received recoverable error: " + errorId);
-   
         return super.onRecoverableError(context, errorId);
     }
 

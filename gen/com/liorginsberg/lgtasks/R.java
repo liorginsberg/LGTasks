@@ -513,14 +513,15 @@ containing a value of this type.
         public static final int item_popup_menu=0x7f0d0000;
     }
     public static final class string {
-        public static final int _e_g_hashlosha_4_tel_aviv=0x7f070033;
-        public static final int action_settings=0x7f070048;
-        public static final int already_registered=0x7f070037;
-        public static final int app_id=0x7f070035;
-        public static final int app_name=0x7f070029;
+        public static final int _e_g_hashlosha_4_tel_aviv=0x7f070034;
+        public static final int action_settings=0x7f070049;
+        public static final int already_registered=0x7f070038;
+        public static final int app_id=0x7f070036;
+        public static final int app_name=0x7f07002a;
         public static final int com_liorginsberg_lgtasks_AddTaskActivity=0x7f070026;
         public static final int com_liorginsberg_lgtasks_MapActivity=0x7f070027;
         public static final int com_liorginsberg_lgtasks_Prefrences=0x7f070028;
+        public static final int com_liorginsberg_lgtasks_ShareActivity=0x7f070029;
         /**  The screen names that will appear in your reporting 
          */
         public static final int com_liorginsberg_lgtasks_TaskListActivity=0x7f070025;
@@ -594,37 +595,38 @@ containing a value of this type.
         public static final int common_google_play_services_update_title=0x7f070020;
         /**  gcm 
          */
-        public static final int error_config=0x7f070036;
-        public static final int from=0x7f070030;
+        public static final int error_config=0x7f070037;
+        public static final int from=0x7f070031;
         /**  Replace placeholder ID with your tracking ID 
          */
         public static final int ga_trackingId=0x7f070024;
-        public static final int gcm_deleted=0x7f07003d;
-        public static final int gcm_error=0x7f07003b;
-        public static final int gcm_message=0x7f07003a;
-        public static final int gcm_recoverable_error=0x7f07003c;
-        public static final int gcm_registered=0x7f070038;
-        public static final int gcm_unregistered=0x7f070039;
-        public static final int graphical_image=0x7f07002b;
-        public static final int hello_world=0x7f070049;
-        public static final int in_more_details_=0x7f07002f;
-        public static final int location=0x7f070032;
-        public static final int menu_settings=0x7f07002c;
-        public static final int options_clear=0x7f070045;
-        public static final int options_exit=0x7f070046;
-        public static final int options_register=0x7f070043;
-        public static final int options_unregister=0x7f070044;
-        public static final int remind_me=0x7f070034;
-        public static final int server_register_error=0x7f070041;
-        public static final int server_registered=0x7f07003f;
-        public static final int server_registering=0x7f07003e;
-        public static final int server_unregister_error=0x7f070042;
-        public static final int server_unregistered=0x7f070040;
-        public static final int title_activity_add_task=0x7f07002d;
-        public static final int title_activity_share=0x7f070047;
-        public static final int title_activity_task_list=0x7f07002a;
-        public static final int to=0x7f070031;
-        public static final int what_need_to_be_done_=0x7f07002e;
+        public static final int gcm_deleted=0x7f07003e;
+        public static final int gcm_error=0x7f07003c;
+        public static final int gcm_message=0x7f07003b;
+        public static final int gcm_recoverable_error=0x7f07003d;
+        public static final int gcm_registered=0x7f070039;
+        public static final int gcm_unregistered=0x7f07003a;
+        public static final int graphical_image=0x7f07002c;
+        public static final int hello_world=0x7f07004a;
+        public static final int in_more_details_=0x7f070030;
+        public static final int location=0x7f070033;
+        public static final int menu_settings=0x7f07002d;
+        public static final int options_clear=0x7f070046;
+        public static final int options_exit=0x7f070047;
+        public static final int options_register=0x7f070044;
+        public static final int options_unregister=0x7f070045;
+        public static final int pull_handle=0x7f07004b;
+        public static final int remind_me=0x7f070035;
+        public static final int server_register_error=0x7f070042;
+        public static final int server_registered=0x7f070040;
+        public static final int server_registering=0x7f07003f;
+        public static final int server_unregister_error=0x7f070043;
+        public static final int server_unregistered=0x7f070041;
+        public static final int title_activity_add_task=0x7f07002e;
+        public static final int title_activity_share=0x7f070048;
+        public static final int title_activity_task_list=0x7f07002b;
+        public static final int to=0x7f070032;
+        public static final int what_need_to_be_done_=0x7f07002f;
     }
     public static final class style {
         /** 

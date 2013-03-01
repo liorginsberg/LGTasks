@@ -9,12 +9,9 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 import android.widget.Toast;
 
 public class TaskDB {
-
-	private final String TAG = "TASKDB";
 	
 	public static final String KEY_ROWID = "task_id";
 	public static final String KEY_TASK_TITLE = "task_title";
@@ -73,9 +70,9 @@ public class TaskDB {
 		try{
 			open();
 			rowEffectedCount = tasksDB.delete(TASKS_TABLE, KEY_ROWID + "=" + taskID , null);
-			Log.i(TAG, "task with id=" + taskID + " was seccessfuly removed from database");
+			
 		} catch (SQLException e) {
-			Log.i(TAG, "Could not delete task " + taskID);
+			
 		} finally {
 			close();
 		}
@@ -128,8 +125,7 @@ public class TaskDB {
 		open();
 		int rowCount = tasksDB.update(TASKS_TABLE, cv, whereClause, null);
 		close();
-		if(rowCount == 1) {
-			Log.i(TAG, "set task with id=" + task_id + " to " + (done == 0 ? "not done" : "done") );
+		if(rowCount == 1) {		
 			return true;
 		}
 		return false;

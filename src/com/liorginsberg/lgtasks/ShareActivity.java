@@ -62,7 +62,7 @@ public class ShareActivity extends Activity {
 		
 		GridView gridview = (GridView) findViewById(R.id.gridview);
 		
-		//TODO set the images by application existence
+	
 	    gridview.setAdapter(new ImageAdapter(this, images));
 
 	    gridview.setOnItemClickListener(new OnItemClickListener() {

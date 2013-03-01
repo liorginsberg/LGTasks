@@ -1,21 +1,10 @@
 package com.liorginsberg.lgtasks;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import com.google.analytics.tracking.android.EasyTracker;
 
 import android.app.Activity;
 import android.app.AlarmManager;
@@ -33,7 +22,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
@@ -49,10 +37,11 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import com.google.analytics.tracking.android.EasyTracker;
 
 public class AddTaskActivity extends Activity {
 
@@ -72,8 +61,6 @@ public class AddTaskActivity extends Activity {
 
 	private MyGestureDetector myGestureDetector;
 	private MyOnGestureListener myOnGestureListener;
-	private ImageButton btnFetch;
-	private ProgressBar waitSpinner;
 
 	AutoCompleteTextView autoCompleteTextView;
 
@@ -84,8 +71,6 @@ public class AddTaskActivity extends Activity {
 	ArrayList<String> stringAdresses;
 
 	ArrayAdapter<String> adapter;
-
-	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -101,45 +86,40 @@ public class AddTaskActivity extends Activity {
 		spTimeTo = (EditText) findViewById(R.id.spTimeTo);
 		autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.acLocation);
 		chbRemindMe = (CheckBox) findViewById(R.id.chbRemindMe);
-		
 
 		spDateFrom.setKeyListener(null);
 		spTimeFrom.setKeyListener(null);
 		spDateTo.setKeyListener(null);
 		spTimeTo.setKeyListener(null);
-	
 
 		etAddTaskTitle.requestFocus();
-		
-		
+
 		addresses = new ArrayList<Address>();
 		geocoder = new Geocoder(this, new Locale("en", "IL"));
 		stringAdresses = new ArrayList<String>();
 		autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.acLocation);
 		adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, stringAdresses);
 		autoCompleteTextView.setAdapter(adapter);
-		
-	
-		
+
 		autoCompleteTextView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 				EasyTracker.getTracker().sendEvent("ui_action", "clicked EditText", "Location autocomplete", null);
-			
+
 				try {
-					List<Address> a = geocoder.getFromLocationName(((TextView)arg1).getText().toString(),1);
-					if(a != null) {
-						Toast.makeText(getApplicationContext(),a.get(0).getLatitude() + ":" + a.get(0).getLongitude(), Toast.LENGTH_SHORT).show();
+					List<Address> a = geocoder.getFromLocationName(((TextView) arg1).getText().toString(), 1);
+					if (a != null) {
+						Toast.makeText(getApplicationContext(), a.get(0).getLatitude() + ":" + a.get(0).getLongitude(), Toast.LENGTH_SHORT).show();
 					}
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
+
 					e.printStackTrace();
-				}		
+				}
 			}
-		
+
 		});
-		
+
 		autoCompleteTextView.addTextChangedListener(new TextWatcher() {
 
 			@Override
@@ -149,60 +129,54 @@ public class AddTaskActivity extends Activity {
 
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-				// TODO Auto-generated method stub
+
 			}
 
 			@Override
 			public void afterTextChanged(Editable s) {
-				Log.i("onTextChanged", "text changed");
 				if (canExecute) {
-
 					new LocationAsyncTask().execute(s.toString());
-					Log.i("onTextChanged", "execute Location task");
 				} else {
-					Log.i("onTextChange", "task not done, skiped action");
+
 				}
 			}
 		});
 
-	
-		
-		//EDIT
+		// EDIT
 		final int position = getIntent().getIntExtra("position", -1);
 		if (position != -1) {
 			Task temp = TaskList.getInstance(getApplicationContext()).getTaskAt(position);
 			etAddTaskTitle.setText(temp.getTitle());
 			etAddTaskDesc.setText(temp.getDesc());
-			
+
 			fromCalendar = temp.getCalendarFrom();
 			toCalendar = temp.getCalendarTo();
-			if(fromCalendar == null) {
+			if (fromCalendar == null) {
 				fromCalendar = Calendar.getInstance();
 			}
 			if (toCalendar == null) {
 				toCalendar = Calendar.getInstance();
 				toCalendar.add(Calendar.HOUR_OF_DAY, 1);
 			}
-			if(!temp.getLocation().isEmpty()) {
+			if (!temp.getLocation().isEmpty()) {
 				autoCompleteTextView.setText(temp.getLocation());
 			}
-			
-		}//ADD
+
+		}// ADD
 		else {
 			fromCalendar = Calendar.getInstance();
 			toCalendar = Calendar.getInstance();
 			toCalendar.add(Calendar.HOUR_OF_DAY, 1);
 		}
-		
+
 		spDateFrom.setText(String.format(Locale.getDefault(), "%02d/%02d/%02d", fromCalendar.get(Calendar.DAY_OF_MONTH),
 				fromCalendar.get(Calendar.MONTH) + 1, fromCalendar.get(Calendar.YEAR)));
-		spTimeFrom.setText(String.format(Locale.getDefault(), "%02d:%02d", fromCalendar.get(Calendar.HOUR_OF_DAY),
-				fromCalendar.get(Calendar.MINUTE)));
+		spTimeFrom
+				.setText(String.format(Locale.getDefault(), "%02d:%02d", fromCalendar.get(Calendar.HOUR_OF_DAY), fromCalendar.get(Calendar.MINUTE)));
 
 		spDateTo.setText(String.format(Locale.getDefault(), "%02d/%02d/%02d", toCalendar.get(Calendar.DAY_OF_MONTH),
 				toCalendar.get(Calendar.MONTH) + 1, toCalendar.get(Calendar.YEAR)));
 		spTimeTo.setText(String.format(Locale.getDefault(), "%02d:%02d", toCalendar.get(Calendar.HOUR_OF_DAY), toCalendar.get(Calendar.MINUTE)));
-
 
 		myOnGestureListener = new MyOnGestureListener();
 		myGestureDetector = new MyGestureDetector(this, myOnGestureListener);
@@ -222,26 +196,29 @@ public class AddTaskActivity extends Activity {
 				String fromString = spDateFrom.getText().toString() + " " + spTimeFrom.getText().toString();
 				String toString = spDateTo.getText().toString() + " " + spTimeTo.getText().toString();
 				String location = autoCompleteTextView.getText().toString();
-			
+
 				long task_id;
 				if (!taskTitle.isEmpty()) {
-					if(position == -1) {
+					if (position == -1) {
 						SharedPreferences prefs = getApplicationContext().getSharedPreferences(TaskListActivity.PREFS_NAME, 0);
 						boolean updateRemoteDB = prefs.getBoolean("backupTasks", false);
 						boolean autoShare = prefs.getBoolean("autoShare", false);
 						boolean addShare = prefs.getBoolean("addTaskShare", false);
-						boolean share  = autoShare && addShare;
-						task_id = TaskList.getInstance(getApplicationContext()).addTask(-1, taskTitle, taskDesc, fromString, toString, location, 0, updateRemoteDB, share);
-					}else {
+						boolean share = autoShare && addShare;
+						task_id = TaskList.getInstance(getApplicationContext()).addTask(-1, taskTitle, taskDesc, fromString, toString, location, 0,
+								updateRemoteDB, share);
+					} else {
 						task_id = TaskList.getInstance(getApplicationContext()).getTaskAt(position).getTask_id();
 						int task_checked = TaskList.getInstance(getApplicationContext()).getTaskAt(position).isChecked();
-						TaskList.getInstance(getApplicationContext()).updateTask(position, task_id, taskTitle, taskDesc, fromString, toString, location, task_checked);
+						TaskList.getInstance(getApplicationContext()).updateTask(position, task_id, taskTitle, taskDesc, fromString, toString,
+								location, task_checked);
 					}
 					if (chbRemindMe.isChecked()) {
 						Intent intent = new Intent(AddTaskActivity.this, MyBroadcastReceiver.class);
 						intent.putExtra("title", taskTitle);
 						intent.putExtra("desc", taskDesc);
-						PendingIntent pendingIntent = PendingIntent.getBroadcast(AddTaskActivity.this.getApplicationContext(), (int)task_id, intent, 0);
+						PendingIntent pendingIntent = PendingIntent.getBroadcast(AddTaskActivity.this.getApplicationContext(), (int) task_id, intent,
+								0);
 						AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 						Toast.makeText(
 								getApplicationContext(),
@@ -255,7 +232,7 @@ public class AddTaskActivity extends Activity {
 					setResult(RESULT_OK);
 					finish();
 				} else {
-					Log.i("addTaskDialog", "The Title canot be empty");
+					Toast.makeText(getApplicationContext(), "Task title cannot be empty", Toast.LENGTH_LONG).show();
 				}
 			}
 		});
@@ -268,8 +245,6 @@ public class AddTaskActivity extends Activity {
 				finish();
 			}
 		});
-
-		
 
 	}
 
@@ -416,33 +391,31 @@ public class AddTaskActivity extends Activity {
 		}
 
 		public boolean onDown(MotionEvent e) {
-			// TODO Auto-generated method stub
+
 			return true;
 		}
 
 		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-			// TODO Auto-generated method stub
+
 			return false;
 		}
 
 		public void onLongPress(MotionEvent e) {
-			// TODO Auto-generated method stub
 
 		}
 
 		public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-			// TODO Auto-generated method stub
+
 			return false;
 		}
 
 		public void onShowPress(MotionEvent e) {
-			// TODO Auto-generated method stub
 
 		}
 
 		public boolean onSingleTapUp(MotionEvent e) {
 
-			Log.i("Touched", "onSingleTap()");
+			
 			switch (view.getId()) {
 			case R.id.spDateFrom:
 				DatePickerDialog datePickerDialogFrom = new DatePickerDialog(AddTaskActivity.this, new MyOnSetDateListener(view),
@@ -464,7 +437,7 @@ public class AddTaskActivity extends Activity {
 						toCalendar.get(Calendar.HOUR_OF_DAY), fromCalendar.get(Calendar.MINUTE), true);
 				timePickerDialogTo.show();
 				break;
-		
+
 			default:
 				break;
 			}
@@ -498,65 +471,17 @@ public class AddTaskActivity extends Activity {
 
 	}
 
-	private class GetFromWebTask extends AsyncTask<URL, Integer, String> {
-
-		@Override
-		protected void onPreExecute() {
-			waitSpinner.setVisibility(ProgressBar.VISIBLE);
-		}
-
-		@Override
-		protected String doInBackground(URL... urls) {
-			String res = "";
-			try {
-				res = getFromWeb(urls[0]);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return res;
-		}
-
-		private String getFromWeb(URL url) throws Exception {
-			HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-			String response;
-			InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-			InputStreamReader inReader = new InputStreamReader(in);
-			BufferedReader bufferedReader = new BufferedReader(inReader);
-			StringBuilder responseBuilder = new StringBuilder();
-			for (String line = bufferedReader.readLine(); line != null; line = bufferedReader.readLine()) {
-				responseBuilder.append(line);
-			}
-			response = responseBuilder.toString();
-
-			return response;
-		}
-
-		@Override
-		protected void onPostExecute(String result) {
-			JSONObject taskJASON = null;
-			try {
-				taskJASON = new JSONObject(result);
-				etAddTaskTitle.setText(taskJASON.getString("topic"));
-				etAddTaskDesc.setText(taskJASON.getString("description"));
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-			waitSpinner.setVisibility(ProgressBar.INVISIBLE);
-		}
-	}
-	
 	public class LocationAsyncTask extends AsyncTask<String, Void, Boolean> {
 
 		@Override
 		protected Boolean doInBackground(String... params) {
 			canExecute = false;
-			Log.i("doInBackground", "try getting addresses");
+			
 			if (params[0].equals("")) {
 				addresses = new ArrayList<Address>();
 			}
 			try {
 				addresses = (ArrayList<Address>) geocoder.getFromLocationName(params[0], 3);
-
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -566,7 +491,6 @@ public class AddTaskActivity extends Activity {
 
 		@Override
 		protected void onPostExecute(Boolean result) {
-			Log.i("onPostExecute", "starting runOnUiThread");
 			addressesToStrings(addresses);
 			adapter = new ArrayAdapter<String>(AddTaskActivity.this, android.R.layout.simple_dropdown_item_1line, stringAdresses);
 			autoCompleteTextView.setAdapter(adapter);
@@ -583,9 +507,9 @@ public class AddTaskActivity extends Activity {
 			stringAdresses = new ArrayList<String>();
 			for (Address address : addresses) {
 				StringBuilder string = new StringBuilder();
-			
+
 				string.append(address.getMaxAddressLineIndex() > 0 ? address.getAddressLine(0) + " ," : "");
-				string.append(address.getLocality() != null ? address.getLocality() + " ,":"");
+				string.append(address.getLocality() != null ? address.getLocality() + " ," : "");
 				string.append(address.getCountryName() != null ? address.getCountryName() : "");
 				stringAdresses.add(string.toString());
 			}

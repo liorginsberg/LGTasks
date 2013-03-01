@@ -87,7 +87,7 @@ public class HttpPostRequest implements Subject {
 			@Override
 			public void onComplete(final HttpResponse httpResponse) {
 				response = httpResponse.getBodyAsString();
-				Toast.makeText(context, response, Toast.LENGTH_SHORT).show();
+				//Toast.makeText(context, response, Toast.LENGTH_SHORT).show();
 			}
 
 		});

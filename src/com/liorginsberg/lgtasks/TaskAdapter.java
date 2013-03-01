@@ -2,20 +2,16 @@ package com.liorginsberg.lgtasks;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -40,7 +36,7 @@ public class TaskAdapter extends ArrayAdapter<Task> {
 	private static TaskAdapter instance = null;
 
 
-	private TaskList taskList;
+	
 
 	private enum TaskPopupMenu {
 		REMOVE, EDIT, OPEN, SHARE, WAZE
@@ -53,7 +49,7 @@ public class TaskAdapter extends ArrayAdapter<Task> {
 	private TaskAdapter(Context context, int textViewResourceId) {
 		super(context, textViewResourceId, TaskList.getInstance(context).getTasks());
 		this.context = context;
-		this.taskList = TaskList.getInstance(context);
+		
 	}
 
 	public static TaskAdapter getInstance(Context context, int textViewResourceId) {
@@ -141,8 +137,7 @@ public class TaskAdapter extends ArrayAdapter<Task> {
 			this.position = position;
 		}
 
-		public boolean onLongClick(View v) {
-			Log.i("LONG", "pressed " + position);
+		public boolean onLongClick(View v) {			
 			v.setBackgroundColor(Color.CYAN);
 		
 			showPopupMenu(v, position);
@@ -169,7 +164,7 @@ public class TaskAdapter extends ArrayAdapter<Task> {
 				public boolean onMenuItemClick(MenuItem item) {
 					
 					v.setBackgroundColor(Color.TRANSPARENT);
-					TaskPopupMenu itemClicked = TaskPopupMenu.valueOf(item.getTitle().toString().toUpperCase());
+					TaskPopupMenu itemClicked = TaskPopupMenu.valueOf(item.getTitle().toString().toUpperCase(Locale.ENGLISH));
 					switch (itemClicked) {
 					case REMOVE:
 						EasyTracker.getTracker().sendEvent("ui_action", "select_context_menuItem", "REMOVE", null);

@@ -15,7 +15,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -52,7 +51,7 @@ public class MapActivity extends Activity implements LocationListener {
 	private Polyline outerCircle;
 	private CheckBox chbShowAll;
 
-	private ArrayList<MarkerOptions> markers;
+
 	private ArrayList<Marker> markersOnMap;
 
 	@Override
@@ -110,7 +109,6 @@ public class MapActivity extends Activity implements LocationListener {
 
 			@Override
 			public void onCameraChange(CameraPosition camera) {
-				Log.i("ZOOM", "zoom" + camera.zoom);
 				if (camera.zoom >= 15.0) {
 					sbRadOuter.setMax(10);
 				} else if (camera.zoom < 15.0 && camera.zoom >= 14.0) {
@@ -241,7 +239,7 @@ public class MapActivity extends Activity implements LocationListener {
 		if (progressDialog != null && progressDialog.isShowing()) {
 			progressDialog.dismiss();
 		}
-		Log.i("LOCATION", "onLocationChanged");
+	
 		updateMarker(location);
 	}
 
@@ -265,7 +263,7 @@ public class MapActivity extends Activity implements LocationListener {
 
 		@Override
 		public View getInfoContents(Marker arg0) {
-			// TODO Auto-generated method stub
+			
 			return null;
 		}
 
@@ -333,13 +331,13 @@ public class MapActivity extends Activity implements LocationListener {
 
 		@Override
 		public void onStartTrackingTouch(SeekBar arg0) {
-			// TODO Auto-generated method stub
+			
 
 		}
 
 		@Override
 		public void onStopTrackingTouch(SeekBar seekBar) {
-			// TODO Auto-generated method stub
+			
 
 		}
 

@@ -6,7 +6,6 @@ import static com.liorginsberg.lgtasks.CommonUtilities.SENDER_ID;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Locale;
 
 import org.json.JSONException;
@@ -19,9 +18,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.net.Uri;
@@ -29,7 +25,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -43,11 +38,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.Request;
-import com.facebook.Response;
-import com.facebook.Session;
-import com.facebook.SessionState;
-import com.facebook.model.GraphUser;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.android.gcm.GCMRegistrar;
 
@@ -90,7 +80,7 @@ public class TaskListActivity extends Activity {
 		try {
 			unregisterReceiver(mHandleMessageReceiver);
 		} catch (IllegalArgumentException e) {
-			Log.i("unRegisterReciver", "mHandleMessageReceiver is not registered");
+			
 		}
 
 	}
@@ -153,29 +143,7 @@ public class TaskListActivity extends Activity {
 
 		isAppVisible = true;
 
-		// start Facebook Login
-		Session.openActiveSession(this, true, new Session.StatusCallback() {
-
-			// callback when session changes state
-			@Override
-			public void call(Session session, SessionState state, Exception exception) {
-				if (session.isOpened()) {
-					// make request to the /me API
-					Request.executeMeRequestAsync(session, new Request.GraphUserCallback() {
-
-						// callback after Graph API response with user
-						// object
-						@Override
-						public void onCompleted(GraphUser user, Response response) {
-							if (user != null) {
-								Toast.makeText(TaskListActivity.this, "Welocme " + user.getName(), Toast.LENGTH_SHORT).show();
-							}
-						}
-					});
-				}
-			}
-		});
-
+		
 		user_email = AccountsHelper.getEmail(this);
 		if (user_email == null) {
 			user_email = "test";
@@ -221,7 +189,7 @@ public class TaskListActivity extends Activity {
 				// Device is already registered on GCM
 				if (GCMRegistrar.isRegisteredOnServer(this)) {
 					// Skips registration.
-					Log.i("GCM", "Already registered with GCM");
+					
 				} else {
 					// Try to register again, but not in the UI thread.
 					// It's also necessary to cancel the thread onDestroy(),
@@ -486,8 +454,7 @@ public class TaskListActivity extends Activity {
 			//update the widget
 			sendBroadcast(new Intent(WidgetProvider.ACTION_UPDATE));
 			
-		}
-		Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
+		}		
 	}
 
 	private void initButtons() {
@@ -549,15 +516,15 @@ public class TaskListActivity extends Activity {
 		public void onReceive(Context context, Intent intent) {
 			String newMessage = intent.getExtras().getString(EXTRA_MESSAGE);
 			if (newMessage == null) {
-				Log.i("mHandleMessageReceiver", "The intent does not have an extra value 'message'");
+				
 			} else {
-				Log.i("mHandleMessageReceiver", newMessage);
+				
 
 				JSONObject taskJSON = null;
 				try {
 					taskJSON = new JSONObject(newMessage);
 					String action = taskJSON.getString("action");
-					Log.i("PUSH", action);
+					
 					if (action.equals("addTask")) {
 						EasyTracker.getTracker().sendEvent("GCM", "GCM message", "addTask", null);
 						TaskList.getInstance(context).addTask(taskJSON.getLong("task_id"), taskJSON.getString("title"), taskJSON.getString("desc"),

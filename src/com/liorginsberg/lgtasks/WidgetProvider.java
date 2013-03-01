@@ -19,7 +19,6 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.util.Log;
 import android.widget.RemoteViews;
 
 public class WidgetProvider extends AppWidgetProvider {
@@ -28,9 +27,6 @@ public class WidgetProvider extends AppWidgetProvider {
 	
 	@Override
 	public void onUpdate(Context ctxt, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-		
-		Log.i("WidgetProvider","onUpdate");
-
 		
 		for (int i = 0; i < appWidgetIds.length; i++) {
 		
@@ -49,16 +45,4 @@ public class WidgetProvider extends AppWidgetProvider {
 		super.onUpdate(ctxt, appWidgetManager, appWidgetIds);
 	}
 	
-//	@Override
-//	public void onReceive(Context context, Intent intent) {
-//		Log.i("WidgetProvider","onRecive");
-//
-//		ComponentName thisAppWidget = new ComponentName(context.getPackageName(), WidgetProvider.class.getName());
-//		AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-//		int[] appWidgetIds = appWidgetManager.getAppWidgetIds(thisAppWidget);
-//		
-//		onUpdate(context, appWidgetManager, appWidgetIds);
-//		
-//		super.onReceive(context, intent);
-//	}
 }

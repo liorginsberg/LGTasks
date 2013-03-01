@@ -14,7 +14,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.facebook.FacebookRequestError;
@@ -73,7 +72,7 @@ public class ShareTasks {
 			try {
 				privacy.put("value", "SELF");
 			} catch (JSONException e) {
-				Log.e("JSON", "Unknown error while preparing params", e);
+				
 			}
 
 			Bundle postParams = new Bundle();
@@ -90,11 +89,11 @@ public class ShareTasks {
 			Request.Callback callback = new Request.Callback() {
 				public void onCompleted(Response response) {
 					JSONObject graphResponse = response.getGraphObject().getInnerJSONObject();
-					String postId = null;
+					
 					try {
-						postId = graphResponse.getString("id");
+						graphResponse.getString("id");
 					} catch (JSONException e) {
-						Log.i("TEST", "JSON error " + e.getMessage());
+						
 					}
 					FacebookRequestError error = response.getError();
 					if (error != null) {
@@ -220,7 +219,7 @@ public class ShareTasks {
 		PostResponse postResponse = response.getGraphObjectAs(PostResponse.class);
 
 		if (postResponse != null && postResponse.getId() != null) {
-			Log.i("onPostActionResponse", postResponse.getId());
+			
 		} else {
 			handleError(response.getError());
 		}
@@ -242,7 +241,7 @@ public class ShareTasks {
 			case AUTHENTICATION_RETRY:
 				// Tell the user what happened by getting the
 				// message id, and retry the operation later.
-				String userAction = (error.shouldNotifyUser()) ? "" : activity.getString(error.getUserActionMessageId());
+				
 				dialogBody = "retry";
 				listener = new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialogInterface, int i) {

@@ -10,14 +10,15 @@
     <bool name="ga_reportUncaughtExceptions">true</bool>
 
     <!-- Print useful information about what data is being sent to Google Analytics in your logs -->
-    <bool name="ga_debug">true</bool>
+    <bool name="ga_debug">false</bool>
     
     <!-- dry run lets you see what the tracker send when dispaching -->
-    <bool name="ga_dryRun">true</bool>
+    <bool name="ga_dryRun">false</bool>
 
     <!-- The screen names that will appear in your reporting -->
     <string name="com.liorginsberg.lgtasks.TaskListActivity">Main Task List Activity</string>
     <string name="com.liorginsberg.lgtasks.AddTaskActivity">Add Task Activity</string>
 	<string name="com.liorginsberg.lgtasks.MapActivity">Map Activity</string>
 	<string name="com.liorginsberg.lgtasks.Prefrences">Prefrences</string>
+	<string name="com.liorginsberg.lgtasks.ShareActivity">Share Activity</string>
 </resources>

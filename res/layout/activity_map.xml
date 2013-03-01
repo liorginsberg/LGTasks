@@ -17,6 +17,7 @@
         android:topOffset="400dp" >
 
         <ImageButton
+            android:contentDescription="@string/pull_handle"
             android:id="@+id/handle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

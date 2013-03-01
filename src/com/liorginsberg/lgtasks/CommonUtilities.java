@@ -13,10 +13,7 @@ public final class CommonUtilities {
     // Google project id
     public static final String SENDER_ID = "1059318831401"; 
 
-    /**
-     * Tag used on log messages.
-     */
-    static final String TAG = "LGTasks GCM";
+
 
     public static final String DISPLAY_MESSAGE_ACTION =
             "com.liorginsberg.lgtasks.DISPLAY_MESSAGE";
