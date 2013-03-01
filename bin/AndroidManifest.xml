@@ -105,7 +105,7 @@
             android:value="@string/app_id" />
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyCOSbLu7sTIquXKqVY6n7SGPsqZGviZIoU" />
+            android:value="AIzaSyCb_vnQm1PE-0dvTgXHkrepmiBA6yeEmrQ" />
 
         <activity
             android:name="com.liorginsberg.lgtasks.ShareActivity"
